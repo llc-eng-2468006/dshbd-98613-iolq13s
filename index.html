@@ -609,7 +609,7 @@ select option{background:var(--surface);color:var(--fg)}
    CONFIGURAÇÃO DO SUPABASE (só para a versão do GitHub)
    Supabase > Project Settings > Data API (URL) e API Keys (publishable)
    ===================================================================== */
-const SUPABASE_URL = "https://awuvihksjeyasqebbmci.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://awuvihksjeyasqebbmci.supabase.co";
 const SUPABASE_KEY = "sb_publishable_8NNiykjRJ5HTsRVXoSoNjw_OCaItgsM";
 const EMPRESA = "engenharia";
 const ADMIN_EMAIL = "linyston@gmail.com";
@@ -1226,7 +1226,14 @@ $("loginForm").addEventListener("submit",async e=>{
   $("lBtn").disabled=true;$("lBtn").textContent="Entrando…";
   const {error}=await sb.auth.signInWithPassword({email,password:senha});
   $("lBtn").disabled=false;$("lBtn").textContent="Entrar";
-  if(error){er.textContent=/invalid/i.test(error.message)?"E-mail ou senha incorretos.":"Não foi possível entrar: "+error.message;er.hidden=false}
+  if(error){
+    const m=error.message||"";
+    er.textContent=/invalid login credentials/i.test(m)?"E-mail ou senha incorretos."
+      :/api key|apikey|jwt/i.test(m)?"A chave do Supabase no index.html está errada. Confira a SUPABASE_KEY (use a publishable ou anon key)."
+      :/not confirmed/i.test(m)?"Este e-mail ainda não foi confirmado. No Supabase, recrie o usuário marcando \"Auto Confirm User\"."
+      :/fetch|network/i.test(m)?"Não foi possível falar com o Supabase. Confira a SUPABASE_URL no index.html e sua internet."
+      :"Não foi possível entrar: "+m;
+    er.hidden=false}
 });
 $("mSair").onclick=async()=>{await sb?.auth.signOut()};
 $("mSenha").onclick=()=>{$("nSenha").value="";$("nSenha2").value="";$("nErro").hidden=true;$("scrimSenha").hidden=false;$("modalSenha").hidden=false;$("nSenha").focus()};
@@ -1280,7 +1287,8 @@ let fonte;
 const temSupabase=!!window.supabase&&!SUPABASE_URL.startsWith("COLE_");
 if(temSupabase){
   fonte=fonteSupabase;
-  sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  // aceita a URL mesmo se vier com /rest/v1/ no final
+  sb=window.supabase.createClient(SUPABASE_URL.trim().replace(/\/rest\/v1\/?$/,"").replace(/\/+$/,""),SUPABASE_KEY.trim());
   let ultimo;
   sb.auth.onAuthStateChange((ev,session)=>{const uid=session?.user?.id||null;if(uid===ultimo)return;ultimo=uid;setTimeout(()=>uid?entrouSupabase(session.user):saiuSupabase(),0)});
   document.addEventListener("visibilitychange",()=>{if(!document.hidden&&S.carregado)fonteSupabase.recarregar()});
