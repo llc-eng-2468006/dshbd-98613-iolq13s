@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Painel de Projetos Engenharia</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2220%22%20fill%3D%22%23ffffff%22/%3E%20%20%20%3Cpath%20d%3D%22M18%2016V82H46%22%20stroke%3D%22%231f3584%22%20stroke-width%3D%2211%22/%3E%20%20%20%3Cpath%20d%3D%22M84%2031A28%2028%200%201%200%2085%2075%22%20stroke%3D%22%231f3584%22%20stroke-width%3D%2211%22/%3E%20%20%20%3Cpath%20d%3D%22M38%209V57H64%22%20stroke%3D%22%23c8192e%22%20stroke-width%3D%2211%22/%3E%20%3C/svg%3E%20">
+<title>Projetos LLC Eng</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Playfair+Display:wght@600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <style>
@@ -327,6 +328,17 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
 .f input:disabled,.f select:disabled,.f textarea:disabled,.step input:disabled,.step select:disabled{opacity:.75;cursor:not-allowed;background:var(--surface-2)}
 .lock{font-size:12px;color:var(--muted);background:var(--surface-2);border-radius:6px;padding:6px 10px}
 .step.locked{opacity:.8}
+.grip{cursor:grab;touch-action:none;user-select:none;color:var(--muted);font-size:16px;line-height:1;text-align:center;padding:6px 0;border-radius:4px;letter-spacing:-2px}
+.grip:hover{color:var(--fg);background:var(--surface-2)}
+.step.dragging{opacity:.45}
+body.arrastando,body.arrastando *{cursor:grabbing!important;user-select:none}
+.step.drop-before{box-shadow:0 -3px 0 0 var(--accent)}
+.step.drop-after{box-shadow:0 3px 0 0 var(--accent)}
+.acts{display:flex;align-items:center;justify-content:flex-end;gap:2px}
+.mvb{border:1px solid var(--line);background:var(--surface);color:var(--muted);width:26px;height:26px;border-radius:4px;cursor:pointer;font-size:11px;line-height:1;padding:0}
+.mvb:hover:not(:disabled){color:var(--fg);border-color:var(--muted)}
+.mvb:disabled{opacity:.3;cursor:default}
+.step.moved{box-shadow:0 0 0 2px var(--accent)}
 body:not(.admin) .frow.r2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 .f{display:flex;flex-direction:column;gap:4px;min-width:0}
 .f label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
@@ -345,10 +357,10 @@ select option{background:var(--surface);color:var(--fg)}
 .steps-h{display:flex;align-items:center;gap:10px}
 .steps-h h4{margin:0;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .steps{display:flex;flex-direction:column;gap:6px}
-.step{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) 150px 170px auto 34px;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--pc);border-radius:6px;padding:6px 8px}
+.step{display:grid;grid-template-columns:18px minmax(0,1.6fr) minmax(0,1fr) 150px 170px auto 92px;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--pc);border-radius:6px;padding:6px 8px}
 .step.done .nm{text-decoration:line-through;color:var(--muted)}
 .step input,.step select{border:1px solid var(--line);background:var(--bg);border-radius:4px;padding:6px 8px;min-width:0;width:100%}
-.step-cols{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) 150px 170px 202px 34px;gap:8px;padding:0 12px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+.step-cols{display:grid;grid-template-columns:18px minmax(0,1.6fr) minmax(0,1fr) 150px 170px 202px 92px;gap:8px;padding:0 12px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700}
 
 /* login e modal */
 .login{min-height:100vh;display:grid;place-items:center;padding:24px 16px;background:var(--bg)}
@@ -368,7 +380,7 @@ select option{background:var(--surface);color:var(--fg)}
 @media (max-width:1500px){
   .frow.r1{grid-template-columns:90px minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 150px;}
   .frow.r1 .f-prazo,.frow.r1 .f-status{grid-column:span 1}
-  .step{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 140px 160px auto 34px}
+  .step{grid-template-columns:18px minmax(0,1.4fr) minmax(0,1fr) 140px 160px auto 92px}
   .step-cols{display:none}
 }
 @media (max-width:1280px){
@@ -395,8 +407,8 @@ select option{background:var(--surface);color:var(--fg)}
   .fin-row{grid-template-columns:minmax(0,1fr)}
   .frow.r1,.frow.r2,body:not(.admin) .frow.r2{grid-template-columns:repeat(2,minmax(0,1fr))}
   .frow .f-local,.frow .f-part,.frow .f-obs,.frow .f-pags{grid-column:1/-1}
-  .step{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 34px}
-  .step .nm{grid-column:1/3}
+  .step{grid-template-columns:18px minmax(0,1fr) minmax(0,1fr) 92px}
+  .step .nm{grid-column:2/4}
   .step .pseg{grid-column:1/-1}
   .task{grid-template-columns:48px minmax(0,1fr);}
   .task select,.task .pseg{grid-column:2}
@@ -575,8 +587,8 @@ select option{background:var(--surface);color:var(--fg)}
     </div>
     <div class="lock" id="lockMsg" hidden>Você pode alterar o status do projeto, adicionar tarefas e atualizar as tarefas atribuídas a você. Os demais dados só o administrador altera.</div>
     <div class="err" id="pErro" hidden></div>
-    <div class="steps-h"><h4>Etapas e tarefas</h4><button class="btn" id="addStep" type="button">+ Adicionar etapa</button></div>
-    <div class="step-cols" id="stepCols"><span>Etapa</span><span>Responsável</span><span>Prazo</span><span>Status</span><span>% feito</span><span></span></div>
+    <div class="steps-h"><h4>Etapas e tarefas</h4><button class="btn" id="addStep" type="button">+ Adicionar etapa</button><button class="btn ghost so-admin" id="ordData" type="button" title="Reorganiza as etapas pela data do prazo">Ordenar por data</button><span class="hint so-admin">Arraste pelo ⋮⋮ ou use ▲ ▼ para mudar a ordem</span></div>
+    <div class="step-cols" id="stepCols"><span></span><span>Etapa</span><span>Responsável</span><span>Prazo</span><span>Status</span><span>% feito</span><span></span></div>
     <div class="steps" id="steps"></div>
   </div>
   <div class="sh-f">
@@ -1058,12 +1070,13 @@ function renderSteps(){
   if(!edit.etapas.length){el.innerHTML='<div class="hint">Nenhuma etapa ainda. Ex.: Levantamento, Desenho, Entrada na prefeitura, Aprovação.</div>';cabecalho();return}
   el.innerHTML=edit.etapas.map((e,i)=>{const dis=!podeTarefa(e),disR=dis||(!S.admin&&!e._novo),disX=dis||(!S.admin&&!e._novo);return `
     <div class="step v${e.pct}${e.status==="concluido"?" done":""}${dis?" locked":""}" data-i="${i}">
+      ${S.admin?`<span class="grip" title="Segure e arraste para mudar a ordem" aria-hidden="true">⋮⋮</span>`:"<span></span>"}
       <input class="nm" id="st-n-${e.id}" data-k="nome" value="${esc(e.nome)}" placeholder="Nome da etapa" aria-label="Nome da etapa"${dis?" disabled":""}>
       <select id="st-r-${e.id}" data-k="responsavel" aria-label="Responsável"${disR?" disabled":""}>${opcoesPessoas(e.responsavel,"— responsável —")}</select>
       <input type="date" id="st-d-${e.id}" data-k="prazo" value="${esc(e.prazo)}" aria-label="Prazo da etapa"${dis?" disabled":""}>
       ${selStatusT(e.status,dis)}
       ${segPct(e.pct,dis)}
-      <button class="x" type="button" data-del="${i}" aria-label="Remover etapa"${disX?" disabled":""}>×</button>
+      <div class="acts">${S.admin?`<button class="mvb" type="button" data-mv="-1" aria-label="Subir etapa"${i===0?" disabled":""}>▲</button><button class="mvb" type="button" data-mv="1" aria-label="Descer etapa"${i===edit.etapas.length-1?" disabled":""}>▼</button>`:""}<button class="x" type="button" data-del="${i}" aria-label="Remover etapa"${disX?" disabled":""}>×</button></div>
     </div>`}).join("");
   cabecalho();
 }
@@ -1071,9 +1084,40 @@ $("steps").addEventListener("input",ev=>{const t=ev.target,k=t.dataset.k;if(!k||
 $("steps").addEventListener("change",ev=>{const t=ev.target;if(t.dataset.k!=="status")return;setStatus(edit.etapas[+t.closest(".step").dataset.i],t.value);aplicarAuto();renderSteps()});
 $("pStatus").addEventListener("change",()=>{if(edit)edit.statusAnterior=null});
 $("steps").addEventListener("click",ev=>{
+  const mv=ev.target.closest("[data-mv]");
+  if(mv){const i=+mv.closest(".step").dataset.i,j=i+ +mv.dataset.mv;if(j<0||j>=edit.etapas.length)return;
+    [edit.etapas[i],edit.etapas[j]]=[edit.etapas[j],edit.etapas[i]];renderSteps();
+    const el=$("steps").querySelector(`.step[data-i="${j}"]`);el?.classList.add("moved");el?.querySelector(`[data-mv="${mv.dataset.mv}"]:not(:disabled)`)?.focus();setTimeout(()=>el?.classList.remove("moved"),600);return}
   const d=ev.target.closest("[data-del]");if(d){edit.etapas.splice(+d.dataset.del,1);aplicarAuto();renderSteps();return}
   const b=ev.target.closest("[data-pct]");if(b){setPct(edit.etapas[+b.closest(".step").dataset.i],+b.dataset.pct);aplicarAuto();renderSteps()}
 });
+// arrastar e soltar etapas (mouse ou toque), pela alça ⋮⋮
+let drag=null;
+function limparDrop(){$("steps").querySelectorAll(".drop-before,.drop-after").forEach(r=>r.classList.remove("drop-before","drop-after"))}
+$("steps").addEventListener("pointerdown",ev=>{
+  const h=ev.target.closest(".grip");if(!h||!edit)return;ev.preventDefault();
+  const st=h.closest(".step");drag={from:+st.dataset.i,to:null,el:st,h};st.classList.add("dragging");document.body.classList.add("arrastando");
+  try{h.setPointerCapture(ev.pointerId)}catch(e){}
+});
+$("steps").addEventListener("pointermove",ev=>{
+  if(!drag)return;
+  const rows=[...$("steps").querySelectorAll(".step")];let to=rows.length;
+  for(const r of rows){const b=r.getBoundingClientRect();if(ev.clientY<b.top+b.height/2){to=+r.dataset.i;break}}
+  drag.to=to;limparDrop();
+  if(to<rows.length)rows[to].classList.add("drop-before");else rows[rows.length-1].classList.add("drop-after");
+  const box=document.querySelector(".sh-b").getBoundingClientRect();
+  if(ev.clientY<box.top+50)document.querySelector(".sh-b").scrollBy(0,-12);else if(ev.clientY>box.bottom-50)document.querySelector(".sh-b").scrollBy(0,12);
+});
+function soltar(){
+  if(!drag)return;const {from}=drag;let to=drag.to;
+  drag.el.classList.remove("dragging");document.body.classList.remove("arrastando");limparDrop();drag=null;
+  if(to==null)return;if(to>from)to--;if(to===from)return;
+  const [e]=edit.etapas.splice(from,1);edit.etapas.splice(to,0,e);renderSteps();
+  const el=$("steps").querySelector(`.step[data-i="${to}"]`);el?.classList.add("moved");setTimeout(()=>el?.classList.remove("moved"),600);
+}
+$("steps").addEventListener("pointerup",soltar);
+$("steps").addEventListener("pointercancel",soltar);
+$("ordData").onclick=()=>{if(!edit)return;edit.etapas=edit.etapas.map((e,i)=>({e,i})).sort((a,b)=>(a.e.prazo||"9999").localeCompare(b.e.prazo||"9999")||a.i-b.i).map(x=>x.e);renderSteps();toast("Etapas ordenadas por data (as sem data ficam no fim)")};
 $("addStep").onclick=()=>{const e=normEtapa({id:rid(),responsavel:S.admin?"":S.eu.nome});e._novo=true;edit.etapas.push(e);aplicarAuto();renderSteps();const ins=$("steps").querySelectorAll(".nm");ins[ins.length-1]?.focus()};
 $("partChips").addEventListener("click",ev=>{const b=ev.target.closest("[data-rm]");if(!b||!S.admin)return;edit.participantes.splice(+b.dataset.rm,1);renderChips()});
 function addPart(){if(!S.admin||!edit)return;const v=$("pPart").value.trim();if(v&&!edit.participantes.some(n=>norm(n)===norm(v)))edit.participantes.push(v);renderChips()}
