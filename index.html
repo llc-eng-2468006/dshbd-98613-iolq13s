@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem("painel.tema")||"dark"}catch(e){document.documentElement.dataset.theme="dark"}</script>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%20%20%20%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2220%22%20fill%3D%22%23ffffff%22/%3E%20%20%20%3Cpath%20d%3D%22M18%2016V82H46%22%20stroke%3D%22%231f3584%22%20stroke-width%3D%2211%22/%3E%20%20%20%3Cpath%20d%3D%22M84%2031A28%2028%200%201%200%2085%2075%22%20stroke%3D%22%231f3584%22%20stroke-width%3D%2211%22/%3E%20%20%20%3Cpath%20d%3D%22M38%209V57H64%22%20stroke%3D%22%23c8192e%22%20stroke-width%3D%2211%22/%3E%20%3C/svg%3E%20">
 <title>Projetos LLC Eng</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +15,7 @@
   --bg:#f0f4fb; --surface:#ffffff; --surface-2:#e6edf8; --line:#c8d8f0;
   --fg:#1a2d6b; --muted:#6a7590; --accent:#1a2d6b; --accent-ink:#ffffff; --accent-soft:#dde6f7; --brand-red:#c8192e;
   --side-bg:#1a2d6b; --side-fg:#dde6f7; --side-muted:#a8bce8; --side-active:#243a8a;
-  --ok:#2e7d32; --ok-soft:#e3f2e4; --warn:#8a6d00; --warn-soft:#fff3cf; --bad:#c8192e; --bad-soft:#fde8ea; --idle:#6a7590; --idle-soft:#e9edf4;
+  --ok:#2e7d32; --ok-soft:#e3f2e4; --warn:#8a6d00; --warn-soft:#fff3cf; --bad:#c8192e; --bad-soft:#fde8ea; --idle:#6a7590; --idle-soft:#e9edf4; --orange:#c2570c; --orange-soft:#ffe8d6;
   --p0:#c8192e; --p25:#dd5a1c; --p50:#e3a400; --p75:#86a826; --p100:#2e7d32;
   --p0i:#ffffff; --p25i:#ffffff; --p50i:#1a1a1a; --p75i:#1a1a1a; --p100i:#ffffff;
   --font-body:"Source Sans 3",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
@@ -27,7 +28,7 @@
   --bg:#0c1430; --surface:#13204a; --surface-2:#1a2a5a; --line:#2a3c74;
   --fg:#e8eefc; --muted:#a3b0d0; --accent:#8fa8ec; --accent-ink:#0c1430; --accent-soft:#22357a; --brand-red:#f0566a;
   --side-bg:#08102a; --side-fg:#dde6f7; --side-muted:#8796c2; --side-active:#1a2a5a;
-  --ok:#7cc983; --ok-soft:#173a24; --warn:#e8c25a; --warn-soft:#3a3010; --bad:#f0566a; --bad-soft:#44152a; --idle:#a3b0d0; --idle-soft:#1c2852;
+  --ok:#7cc983; --ok-soft:#173a24; --warn:#e8c25a; --warn-soft:#3a3010; --bad:#f0566a; --bad-soft:#44152a; --idle:#a3b0d0; --idle-soft:#1c2852; --orange:#ff9a4d; --orange-soft:#3d2312;
   --p0:#f0566a; --p25:#f08a4a; --p50:#f0c040; --p75:#b5d65a; --p100:#7cc983;
   --p0i:#0c1430; --p25i:#0c1430; --p50i:#0c1430; --p75i:#0c1430; --p100i:#0c1430;
   --shadow:0 2px 16px rgba(0,0,0,.35); --shadow-up:0 -8px 32px rgba(0,0,0,.5); color-scheme:dark}}
@@ -35,7 +36,7 @@
   --bg:#0c1430; --surface:#13204a; --surface-2:#1a2a5a; --line:#2a3c74;
   --fg:#e8eefc; --muted:#a3b0d0; --accent:#8fa8ec; --accent-ink:#0c1430; --accent-soft:#22357a; --brand-red:#f0566a;
   --side-bg:#08102a; --side-fg:#dde6f7; --side-muted:#8796c2; --side-active:#1a2a5a;
-  --ok:#7cc983; --ok-soft:#173a24; --warn:#e8c25a; --warn-soft:#3a3010; --bad:#f0566a; --bad-soft:#44152a; --idle:#a3b0d0; --idle-soft:#1c2852;
+  --ok:#7cc983; --ok-soft:#173a24; --warn:#e8c25a; --warn-soft:#3a3010; --bad:#f0566a; --bad-soft:#44152a; --idle:#a3b0d0; --idle-soft:#1c2852; --orange:#ff9a4d; --orange-soft:#3d2312;
   --p0:#f0566a; --p25:#f08a4a; --p50:#f0c040; --p75:#b5d65a; --p100:#7cc983;
   --p0i:#0c1430; --p25i:#0c1430; --p50i:#0c1430; --p75i:#0c1430; --p100i:#0c1430;
   --shadow:0 2px 16px rgba(0,0,0,.35); --shadow-up:0 -8px 32px rgba(0,0,0,.5); color-scheme:dark}
@@ -73,6 +74,9 @@ section{scroll-margin-top:12px}
 .nav .soon small{margin-left:auto;font-size:10px;text-transform:uppercase;letter-spacing:.06em}
 .nav-h{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--side-muted);padding:14px 12px 4px}
 .side .spacer{flex:1}
+.side-novo{display:flex;align-items:center;justify-content:center;gap:6px;margin:0 4px 10px;padding:7px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.25);background:transparent;color:var(--side-fg);font-weight:600;font-size:13px;cursor:pointer}
+.side-novo:hover{background:var(--side-active);border-color:var(--side-muted)}
+.side-novo span:first-child{font-size:16px;line-height:1}
 .me{border-top:1px solid rgba(255,255,255,.12);padding-top:12px;display:flex;flex-direction:column;gap:6px}
 .me-n{display:flex;align-items:center;gap:10px;padding:0 4px}
 .me-n .ini{width:32px;height:32px;border-radius:50%;background:var(--brand-red);color:#fff;display:grid;place-items:center;font-weight:700;flex:none}
@@ -128,6 +132,7 @@ section{scroll-margin-top:12px}
 .kpi small{color:var(--muted);font-size:12px;min-height:1.3em}
 .kpi.k-bad{--k:var(--bad)} .kpi.k-bad b{color:var(--bad)}
 .kpi.k-warn{--k:var(--warn)} .kpi.k-warn b{color:var(--warn)}
+.kpi.k-orange{--k:var(--orange)} .kpi.k-orange b{color:var(--orange)}
 .kpi.k-ok{--k:var(--ok)} .kpi.k-ok b{color:var(--ok)}
 .kpi.k-idle{--k:var(--idle)}
 .kpi.k-acc{--k:var(--accent)}
@@ -248,7 +253,9 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
 .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
 .st-andamento{background:var(--accent-soft);color:var(--accent)}
 .st-concluido{background:var(--ok-soft);color:var(--ok)}
-.st-aguardando,.st-aprovacao,.st-standby{background:var(--warn-soft);color:var(--warn)}
+.st-aguardando,.st-aprovacao{background:var(--warn-soft);color:var(--warn)}
+.st-standby{background:var(--orange-soft);color:var(--orange)}
+.c-orange{background:var(--orange)}
 .st-naoiniciado,.st-afazer{background:var(--idle-soft);color:var(--idle)}
 .st-cancelado{background:var(--bad-soft);color:var(--bad)}
 .bar{height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden;width:90px}
@@ -324,6 +331,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
 .pags{display:flex;flex-direction:column;gap:6px}
 .pag{display:grid;grid-template-columns:150px minmax(0,1fr) 30px;gap:6px}
 .pag input{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 8px;min-width:0;width:100%}
+.pag input:disabled{opacity:.8;cursor:default;background:var(--surface-2)}
 .pag input.money{text-align:right;font-variant-numeric:tabular-nums}
 .f input:disabled,.f select:disabled,.f textarea:disabled,.step input:disabled,.step select:disabled{opacity:.75;cursor:not-allowed;background:var(--surface-2)}
 .lock{font-size:12px;color:var(--muted);background:var(--surface-2);border-radius:6px;padding:6px 10px}
@@ -334,12 +342,19 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
 body.arrastando,body.arrastando *{cursor:grabbing!important;user-select:none}
 .step.drop-before{box-shadow:0 -3px 0 0 var(--accent)}
 .step.drop-after{box-shadow:0 3px 0 0 var(--accent)}
+.atrib{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:var(--r);padding:7px 10px;font-weight:600;cursor:pointer}
+.serv-extra{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:4px}
+.f .serv-extra label{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--fg);text-transform:none;letter-spacing:0;font-weight:600;cursor:pointer}
+.serv-extra input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent)}
+.serv-extra input[type=text]{flex:1;min-width:0}
+.dcell{position:relative;min-width:0}
+.dcell input{width:100%}
+.vinc{position:absolute;right:6px;top:-8px;font-size:10px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:3px;padding:1px 4px;pointer-events:none}
 .acts{display:flex;align-items:center;justify-content:flex-end;gap:2px}
 .mvb{border:1px solid var(--line);background:var(--surface);color:var(--muted);width:26px;height:26px;border-radius:4px;cursor:pointer;font-size:11px;line-height:1;padding:0}
 .mvb:hover:not(:disabled){color:var(--fg);border-color:var(--muted)}
 .mvb:disabled{opacity:.3;cursor:default}
 .step.moved{box-shadow:0 0 0 2px var(--accent)}
-body:not(.admin) .frow.r2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 .f{display:flex;flex-direction:column;gap:4px;min-width:0}
 .f label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
 .f input,.f select,.f textarea{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:8px 10px;width:100%;min-width:0}
@@ -388,6 +403,8 @@ select option{background:var(--surface);color:var(--fg)}
   .side .logo{display:none} .side .logo-mini{display:grid;place-items:center;width:44px;height:44px;margin:0 auto 10px;background:#fff;border-radius:8px;color:#1a2d6b;font-family:var(--font-display);font-weight:700;font-size:18px}
   .nav a,.nav span{justify-content:center;padding:12px 0}
   .nav .lbl,.nav .nav-h,.nav .soon small,.me-n div,.me button,.me label,.me select{display:none}
+  .side-novo .lbl{display:none}
+  .side-novo{margin:0 auto 10px;width:40px;height:40px;padding:0}
   .me-n{justify-content:center}
   .fin{grid-template-columns:repeat(2,minmax(0,1fr))}
   .charts{grid-template-columns:minmax(0,1fr)}
@@ -399,13 +416,14 @@ select option{background:var(--surface);color:var(--fg)}
   .nav{flex-direction:row}
   .nav a,.nav span{padding:8px 12px}
   .nav .soon,.side .spacer{display:none}
+  .side-novo{margin:0 0 0 auto;width:36px;height:36px;flex:none}
   .me{border-top:0;padding-top:0;margin-left:auto;flex-direction:row}
   .rail{border-left:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:20px}
   .rail-in{position:static;height:auto;max-height:520px}
   .sheet{left:0}
   .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
   .fin-row{grid-template-columns:minmax(0,1fr)}
-  .frow.r1,.frow.r2,body:not(.admin) .frow.r2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .frow.r1,.frow.r2{grid-template-columns:repeat(2,minmax(0,1fr))}
   .frow .f-local,.frow .f-part,.frow .f-obs,.frow .f-pags{grid-column:1/-1}
   .step{grid-template-columns:18px minmax(0,1fr) minmax(0,1fr) 92px}
   .step .nm{grid-column:2/4}
@@ -444,17 +462,19 @@ select option{background:var(--surface);color:var(--fg)}
     <div class="nav">
       <span class="nav-h">Engenharia</span>
       <a href="#sec-dashboard" data-nav="sec-dashboard" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg><span class="lbl">Dashboard</span></a>
-      <a href="#sec-financeiro" data-nav="sec-financeiro" class="so-admin"><svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M17 7.5c0-1.9-2.2-3-5-3s-5 1.1-5 3 2.2 2.6 5 3 5 1.3 5 3.2-2.2 3-5 3-5-1.1-5-3"/></svg><span class="lbl">Financeiro</span></a>
+      <a href="#sec-financeiro" data-nav="sec-financeiro"><svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M17 7.5c0-1.9-2.2-3-5-3s-5 1.1-5 3 2.2 2.6 5 3 5 1.3 5 3.2-2.2 3-5 3-5-1.1-5-3"/></svg><span class="lbl">Financeiro</span></a>
       <a href="#sec-projetos" data-nav="sec-projetos"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span class="lbl">Projetos</span></a>
       <a href="#sec-tarefas" data-nav="sec-tarefas"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg><span class="lbl">Minhas tarefas</span></a>
       <a href="#sec-calendario" data-nav="sec-calendario"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span class="lbl">Calendário</span></a>
     </div>
     <div class="spacer"></div>
+    <button class="side-novo so-admin" id="sideNovo" type="button" title="Novo projeto"><span aria-hidden="true">+</span><span class="lbl">Novo projeto</span></button>
     <div class="me">
       <div class="me-n"><span class="ini" id="userIni">?</span><div><b id="userNome">—</b><small id="userPapel"></small></div></div>
       <label for="demoUser" id="demoLbl" hidden>Ver painel como</label>
       <select id="demoUser" hidden></select>
       <button type="button" id="mSenha" hidden>Alterar minha senha</button>
+      <button type="button" id="mTema" hidden>Usar tema claro</button>
       <button type="button" id="mBackup" class="so-admin">Baixar backup</button>
       <button type="button" id="mSair" hidden>Sair</button>
     </div>
@@ -490,8 +510,8 @@ select option{background:var(--surface);color:var(--fg)}
   </aside>
 
   <div class="rest">
-    <section class="so-admin finsec" id="sec-financeiro">
-      <div class="sec-h"><h2>Financeiro</h2><p>Visível só para você. Projetos em standby e cancelados ficam fora dos totais.</p></div>
+    <section class="finsec" id="sec-financeiro">
+      <div class="sec-h"><h2>Financeiro</h2><p id="finSub">Projetos em standby e cancelados ficam fora dos totais.</p></div>
       <div class="fin" id="fin"></div>
       <div class="fin-row"><div class="box meter-box" id="finMeter"></div><div class="panel" id="finServ"></div></div>
       <div id="finFat"></div>
@@ -503,8 +523,9 @@ select option{background:var(--surface);color:var(--fg)}
         <div class="tools">
           <input id="busca" type="search" placeholder="Buscar OS, cliente, local…" aria-label="Buscar">
           <select id="fStatus" aria-label="Filtrar por status"></select>
+          <select id="fCat" aria-label="Filtrar por categoria"><option value="">Todas as categorias</option></select>
           <select id="fResp" aria-label="Filtrar por responsável"><option value="">Todos os responsáveis</option></select>
-          <select id="fPag" aria-label="Filtrar por pagamento" class="so-admin">
+          <select id="fPag" aria-label="Filtrar por pagamento">
             <option value="">Pagamento: todos</option>
             <option value="pendente">Com valor a receber</option>
             <option value="quitado">Quitados</option>
@@ -514,7 +535,7 @@ select option{background:var(--surface);color:var(--fg)}
       </div>
       <div class="tbl-wrap">
         <table>
-          <thead><tr><th>OS</th><th>Imóvel / Local</th><th>Serviço</th><th>Cliente</th><th>Responsável</th><th>Prazo</th><th>Status</th><th>Andamento</th><th class="num so-admin">Valor</th><th class="num so-admin">A receber</th></tr></thead>
+          <thead><tr><th>OS</th><th>Imóvel / Local</th><th>Serviço</th><th>Cliente</th><th>Responsável</th><th>Prazo</th><th>Status</th><th>Andamento</th><th class="num">Valor</th><th class="num">A receber</th></tr></thead>
           <tbody id="tbody"></tbody>
         </table>
       </div>
@@ -571,23 +592,23 @@ select option{background:var(--surface);color:var(--fg)}
     <div class="frow r1">
       <div class="f"><label for="pOS">OS</label><input id="pOS" class="mono" placeholder="26.22" inputmode="decimal"></div>
       <div class="f f-local"><label for="pLocal">Imóvel / Local</label><input id="pLocal" placeholder="Ex.: Casa Rua das Flores, 120"></div>
-      <div class="f"><label for="pServico">Serviço</label><input id="pServico" list="lServicos"></div>
+      <div class="f f-serv"><label for="pServSel">Serviço</label><select id="pServSel"></select><input type="hidden" id="pServico"><div class="serv-extra" id="pServExtra" hidden></div></div>
       <div class="f"><label for="pCliente">Cliente</label><input id="pCliente" list="lClientes"></div>
       <div class="f"><label for="pResp">Responsável</label><select id="pResp"></select></div>
       <div class="f f-inicio"><label for="pInicio">Início do serviço</label><input id="pInicio" type="date"></div>
-      <div class="f f-prazo"><label for="pPrazo">Prazo de entrega</label><input id="pPrazo" type="date"></div>
+      <div class="f f-prazo"><label for="pPrazo">Prazo de entrega</label><input id="pPrazo" type="date"><span class="hint" id="prazoHint" hidden>= última etapa</span></div>
       <div class="f f-status"><label for="pStatus">Status</label><select id="pStatus"></select></div>
     </div>
     <div class="frow r2">
-      <div class="f so-admin fbox"><label for="pValor">Valor do contrato</label><input id="pValor" class="money" inputmode="decimal" placeholder="R$ 0,00">
+      <div class="f fbox"><label for="pValor">Valor do contrato</label><input id="pValor" class="money" inputmode="decimal" placeholder="R$ 0,00">
         <div class="resumo"><span>Total pago</span><b id="pPagoTot">R$ 0,00</b><span>A receber</span><b id="pSaldo">R$ 0,00</b></div></div>
-      <div class="f so-admin f-pags"><label>Pagamentos recebidos</label><div class="pags" id="pags"></div><div><button class="btn" id="addPag" type="button">+ Adicionar pagamento</button></div></div>
+      <div class="f f-pags"><label>Pagamentos recebidos</label><div class="pags" id="pags"></div><div><button class="btn" id="addPag" type="button">+ Adicionar pagamento</button></div></div>
       <div class="f f-part"><label for="pPart">Participantes</label><div class="chips-in"><span id="partChips" style="display:contents"></span><select id="pPart" aria-label="Adicionar participante"></select></div></div>
       <div class="f f-obs"><label for="pObs">Observações</label><textarea id="pObs"></textarea></div>
     </div>
     <div class="lock" id="lockMsg" hidden>Você pode alterar o status do projeto, adicionar tarefas e atualizar as tarefas atribuídas a você. Os demais dados só o administrador altera.</div>
     <div class="err" id="pErro" hidden></div>
-    <div class="steps-h"><h4>Etapas e tarefas</h4><button class="btn" id="addStep" type="button">+ Adicionar etapa</button><button class="btn ghost so-admin" id="ordData" type="button" title="Reorganiza as etapas pela data do prazo">Ordenar por data</button><span class="hint so-admin">Arraste pelo ⋮⋮ ou use ▲ ▼ para mudar a ordem</span></div>
+    <div class="steps-h"><h4>Etapas e tarefas</h4><button class="btn" id="addStep" type="button">+ Adicionar etapa</button><button class="btn so-admin" id="addModelo" type="button" hidden>+ Inserir etapas padrão</button><select id="atribTodas" class="so-admin atrib" aria-label="Atribuir todas as etapas"></select><button class="btn danger so-admin" id="limparEtapas" type="button" hidden>Excluir todas as etapas</button><button class="btn ghost so-admin" id="ordData" type="button" title="Reorganiza as etapas pela data do prazo">Ordenar por data</button><span class="hint so-admin">Arraste pelo ⋮⋮ ou use ▲ ▼ para mudar a ordem</span></div>
     <div class="step-cols" id="stepCols"><span></span><span>Etapa</span><span>Responsável</span><span>Prazo</span><span>Status</span><span>% feito</span><span></span></div>
     <div class="steps" id="steps"></div>
   </div>
@@ -611,7 +632,6 @@ select option{background:var(--surface);color:var(--fg)}
 
 <datalist id="lPessoas"></datalist>
 <datalist id="lClientes"></datalist>
-<datalist id="lServicos"></datalist>
 <div class="toast" id="toast" hidden></div>
 <div class="tip" id="tip" hidden></div>
 
@@ -629,12 +649,40 @@ const ADMIN_EMAIL = "linyston@gmail.com";
 
 (function(){
 "use strict";
-const STATUS=[["naoiniciado","Não iniciado"],["andamento","Em andamento"],["aguardando","Aguardando cliente"],["standby","Standby"],["concluido","Concluído"],["cancelado","Cancelado"]];
+const STATUS=[["naoiniciado","Não iniciado"],["andamento","Em andamento"],["aguardando","Aguardando retorno"],["standby","Standby"],["concluido","Concluído"],["cancelado","Cancelado"]];
 const ST=Object.fromEntries(STATUS);
-const T_STATUS=[["afazer","A fazer"],["andamento","Em andamento"],["aguardando","Aguardando cliente"],["concluido","Concluído"]];
+const T_STATUS=[["afazer","A fazer"],["andamento","Em andamento"],["aguardando","Standby"],["concluido","Concluído"]];
 const TST=Object.fromEntries(T_STATUS);
 const PCTS=[0,25,50,75,100];
-const SERVICOS_BASE=["Projeto arquitetônico","Projeto estrutural","Projeto elétrico","Projeto hidrossanitário","Regularização / Habite-se","Habite-se","Laudo técnico","Vistoria","Levantamento topográfico","Acompanhamento de obra","Aprovação na prefeitura","Usucapião"];
+// serviços por categoria (o serviço fica salvo como "CATEGORIA - Nome")
+const CATS=[["PREF",["Regularização","Regularização / Habite-se","Habite-se","Construção"]],["AGRMNS",["Usucapião","Desdobro","Unificação","Retificação de Área"]],["BOMBEIRO",["AVCB / CLCB"]],["INFRA",null],["PESSOAL",null]];
+const INFRA_ITENS=["Água","Esgoto","Drenagem","Terraplanagem"];
+const SERVICOS=CATS.flatMap(([c,l])=>l?l.map(n=>c+" - "+n):[c]);
+const SERV_ANTIGOS={"REGULARIZACAO":"PREF - Regularização","REGULARIZACAO / HABITE-SE":"PREF - Regularização / Habite-se","HABITE-SE":"PREF - Habite-se","APROVACAO NA PREFEITURA":"PREF - Construção",
+  "USUCAPIAO":"AGRMNS - Usucapião","DESDOBRO":"AGRMNS - Desdobro","UNIFICACAO":"AGRMNS - Unificação","RETIFICACAO DE AREA":"AGRMNS - Retificação de Área","AVCB / CLCB":"BOMBEIRO - AVCB / CLCB",
+  "REDE DE AGUA":"INFRA - Água","REDE DE ESGOTO":"INFRA - Esgoto","DRENAGEM":"INFRA - Drenagem","TERRAPLANAGEM":"INFRA - Terraplanagem","REDES AGUA, ESGOTO E DRENAGEM":"INFRA - Água, Esgoto, Drenagem",
+  "INFRA - AGUA, ESG, DRN, TRP":"INFRA - Água, Esgoto, Drenagem, Terraplanagem","PESSOAL":"PESSOAL","PROJETO ARQUITETONICO":"PESSOAL - Projeto Arquitetônico","PROJETO ARQUITETONICO (SEM APROVACAO)":"PESSOAL - Projeto Arquitetônico"};
+const migraServ=v=>SERV_ANTIGOS[norm(v)]||v||"";
+const categoria=v=>{const c=String(v||"").split(" - ")[0].trim().toUpperCase();return CATS.some(x=>x[0]===c)?c:""};
+// etapas padrão por serviço: dias = prazo em dias corridos contados a partir do prazo da etapa anterior (null = você define a data)
+const LEV="Levantamento in loco (Desenho de Prancheta e Registro fotográfico)";
+// acha o modelo pelo serviço digitado (sem diferenciar maiúsculas/acentos; qualquer serviço com "CLCB" usa o modelo CLCB)
+function modeloDe(serv){const n=norm(serv);if(!n)return null;for(const k in MODELOS)if(norm(k)===n)return MODELOS[k];if(/^INFRA\b/.test(n))return MODELOS.INFRA;return /CLCB/.test(n)?MODELOS.CLCB:null}
+// Desdobro / Unificação / Retificação: topografia e documentação (datas suas) + etapas do usucapião + aprovação e cadastro
+const AGR=(aprov,anuencia)=>[["Levantamento Planialtimétrico (Topógrafo)",null],["Levantamento de Documentação",null],["Elaboração Projeto e Memorial",13],["Correção e ART",2],["Plotagem / Impressão e Entrega Física / Digital",3],
+  ...(anuencia?[["Anuência Confrontantes",30]]:[]),[aprov,30],["Regularização Cadastro Imobiliário (Prefeitura)",5]];
+const MODELOS={
+  "PREF - Regularização / Habite-se":[[LEV,null],["Elaboração Projeto e Memoriais",13],["Correção e ART",2],["Aprovação Prefeitura",45],["RFB - CNO, Aferição e Emissão CND",3],["Averbação Cartório",30]],
+  "PREF - Habite-se":[["Vistoria / Registro fotográfico in loco",null],["Elaboração de Laudo",5],["Correção e ART",2],["Aprovação Prefeitura",30],["RFB - CNO, Aferição e Emissão CND",3],["Averbação Cartório",30]],
+  "PREF - Regularização":[[LEV,null],["Elaboração Projeto e Memoriais",13],["Correção e ART",2],["Aprovação Prefeitura",45]],
+  "AGRMNS - Usucapião":[["Levantamento de Documentação",null],["Elaboração Projeto e Memorial",13],["Correção e ART",2],["Plotagem / Impressão e Entrega Física / Digital",3]],
+  "PREF - Construção":[["Anteprojeto",null],["Elaboração Projeto e Memoriais",13],["Correção e ART",2],["Aprovação Prefeitura",45]],
+  "AGRMNS - Desdobro":AGR("Aprovação Prefeitura e CRI"),
+  "AGRMNS - Unificação":AGR("Aprovação Prefeitura e CRI"),
+  "AGRMNS - Retificação de Área":AGR("Aprovação CRI",true),
+  "INFRA":[["Vistoria / Levantamento de Documentação",null],["Projeto Preliminar Definição de Traçado",15],["Elaboração Projeto Final e Memoriais",20],["Correção e ART",5]],
+  "CLCB":[["Vistoria / Levantamento de Documentação",null],["Elaboração de Formulário Técnico e ART",5],["Emissão e Recolhimento das Taxas",3],["Emissão CLCB pelo ViaFácil",2],["Impressão e Entrega Física / Digital",3]]
+};
 const MESES=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
 const CONFLITO="Outra pessoa alterou este projeto enquanto você editava. Feche, abra de novo para ver a versão atual e refaça sua alteração.";
 const $=id=>document.getElementById(id);
@@ -668,7 +716,7 @@ function normEtapa(e){
   if(!TST[status])status=(e.feito||pct===100)?"concluido":(pct>0?"andamento":"afazer");
   if(status==="concluido")pct=100;
   let ant=e.pctAnterior; if(ant==null||ant===100)ant=pct===100?75:pct;
-  return {id:e.id||rid(),nome:e.nome||"",responsavel:e.responsavel||"",prazo:e.prazo||"",pct,status,pctAnterior:bucket(ant)};
+  return {id:e.id||rid(),nome:e.nome||"",responsavel:e.responsavel||"",prazo:e.prazo||"",pct,status,pctAnterior:bucket(ant),dias:e.dias>0?+e.dias:null,vinc:!!e.vinc&&e.dias>0,ancora:e.ancora==="inicio"?"inicio":null,apos:Array.isArray(e.apos)&&e.apos.length?e.apos.map(String):null};
 }
 function normPags(r){
   if(Array.isArray(r.pagamentos))return r.pagamentos.map(x=>({id:x.id||rid(),data:x.data||"",valor:+x.valor||0}));
@@ -679,14 +727,14 @@ const somaPags=l=>Math.round(l.reduce((s,x)=>s+(+x.valor||0),0)*100)/100;
 const migraSt=v=>{v={pausado:"standby",documento:"aguardando",aprovacao:"andamento"}[v]||v;return ST[v]?v:null};
 function normProjeto(r){
   const p={os:r.os,empresa:r.empresa||"engenharia",status:migraSt(r.status)||"naoiniciado",statusAnterior:migraSt(r.status_anterior),
-    local:r.local||"",servico:r.servico||"",cliente:r.cliente||"",responsavel:r.responsavel||"",participantes:Array.isArray(r.participantes)?r.participantes:[],
+    local:r.local||"",servico:migraServ(r.servico),cliente:r.cliente||"",responsavel:r.responsavel||"",participantes:Array.isArray(r.participantes)?r.participantes:[],
     prazo:r.prazo||"",inicio:r.data_inicio||"",obs:r.obs||"",etapas:(Array.isArray(r.etapas)?r.etapas:[]).map(normEtapa),valor:+r.valor||0,pagamentos:normPags(r),
     criado:r.criado_em?Date.parse(r.criado_em):(r.criadoEm||null),atualizado:r.atualizado_em??r.atualizadoEm??null,
     atualizadoPor:r.atualizado_por||null,atualizadoPorNome:r.atualizadoPorNome||"",_pagPend:r._pagPend};
   p.pago=somaPags(p.pagamentos);return p;
 }
 function serial(p){return {os:p.os,status:p.status,status_anterior:p.statusAnterior||null,local:p.local,servico:p.servico,cliente:p.cliente,responsavel:p.responsavel,participantes:p.participantes,prazo:p.prazo||null,data_inicio:p.inicio||null,obs:p.obs,
-  etapas:p.etapas.map(e=>({id:e.id,nome:e.nome,responsavel:e.responsavel,prazo:e.prazo,pct:e.pct,status:e.status,pctAnterior:e.pctAnterior}))}}
+  etapas:p.etapas.map(e=>({id:e.id,nome:e.nome,responsavel:e.responsavel,prazo:e.prazo,pct:e.pct,status:e.status,pctAnterior:e.pctAnterior,dias:e.dias||null,vinc:!!e.vinc,ancora:e.ancora||null,apos:e.apos||null}))}}
 const tarefaFeita=e=>e.status==="concluido";
 const fechado=p=>p.status==="concluido"||p.status==="cancelado";
 function progresso(p){const e=p.etapas||[];if(!e.length)return p.status==="concluido"?100:0;return Math.round(e.reduce((s,x)=>s+x.pct,0)/e.length)}
@@ -751,7 +799,6 @@ function render(){
   fr.innerHTML='<option value="">Todos os responsáveis</option>'+ps.map(n=>`<option${norm(n)===norm(cur)?" selected":""}>${esc(n)}</option>`).join("");
   $("lPessoas").innerHTML=ps.map(n=>`<option value="${esc(n)}">`).join("");
   $("lClientes").innerHTML=[...new Set(S.projetos.map(p=>p.cliente).filter(Boolean))].map(n=>`<option value="${esc(n)}">`).join("");
-  $("lServicos").innerHTML=[...new Set([...SERVICOS_BASE,...S.projetos.map(p=>p.servico).filter(Boolean)])].map(n=>`<option value="${esc(n)}">`).join("");
   const evs=eventos();
   renderKPIs(evs);renderFin();renderCharts();renderRail(evs);renderCal(evs);renderProjetos();renderTarefas();
 }
@@ -770,12 +817,12 @@ function renderKPIs(evs){
   const k=[
     {id:"atrasados",lbl:"Atrasados",n:atras.length,sub:"projetos com prazo vencido",cls:"k-bad"},
     {id:"v7",lbl:"Vencem em 7 dias",n:v7,sub:"entregas e tarefas",cls:"k-warn"},
-    {id:"aguardando",lbl:"Aguardando cliente",n:c("aguardando"),sub:"projetos",cls:"k-warn"},
     {id:"abertos",lbl:"Em andamento",n:abertos.length,sub:"projetos abertos",cls:"k-acc"},
+    {id:"standby",lbl:"Standby",n:c("standby"),sub:"projetos parados",cls:"k-orange"},
+    {id:"pagpend",lbl:"Pagamento pendente",n:pp.length,sub:pp.length?brl(cobrar)+" para cobrar":"nada para cobrar",cls:"k-bad"},
     {id:"concluido",lbl:"Concluídos",n:c("concluido"),sub:"projetos",cls:"k-ok"},
-    {id:"pagpend",lbl:"Pagamento pendente",n:pp.length,sub:S.admin?(pp.length?brl(cobrar)+" para cobrar":"nada para cobrar"):"entregues, aguardando pagamento",cls:"k-bad"},
-    {id:"standby",lbl:"Standby",n:c("standby"),sub:"projetos parados",cls:"k-warn"},
-    {id:"cancelado",lbl:"Cancelados",n:c("cancelado"),sub:"projetos",cls:"k-idle"}
+    {id:"aguardando",lbl:"Aguardando retorno (orçamento)",n:c("aguardando"),sub:"projetos",cls:"k-warn"},
+    {id:"cancelado",lbl:"Cancelados",n:c("cancelado"),sub:"projetos",cls:"k-bad"}
   ];
   $("kpis").innerHTML=k.map(x=>`<button type="button" class="kpi ${x.cls}${x.n===0?" zero":""}" data-kpi="${x.id}"><span class="lbl">${x.lbl}</span><b>${esc(x.n)}</b><small>${esc(x.sub)}</small></button>`).join("");
   const ct=$("chipTarefas");
@@ -785,7 +832,7 @@ function renderKPIs(evs){
 }
 
 function renderFin(){
-  if(!S.admin){["fin","finMeter","finServ","finFat"].forEach(id=>$(id).innerHTML="");return}
+  $("finSub").textContent=S.admin?"Visível para cada um só com os projetos em que participa. Standby e cancelados ficam fora dos totais.":"Valores dos projetos em que você participa. Standby e cancelados ficam fora dos totais.";
   const base=S.projetos.filter(contaFin),sb_=S.projetos.filter(p=>p.status==="standby"&&p.valor>0);
   const tot=base.reduce((s,p)=>s+p.valor,0),rec=base.reduce((s,p)=>s+p.pago,0),pen=base.reduce((s,p)=>s+aReceber(p),0);
   const pp=S.projetos.filter(pagPendente),cobrar=pp.reduce((s,p)=>s+Math.max(p.valor-p.pago,0),0);
@@ -828,7 +875,7 @@ function hbars(rows,max,fmtv){
 function renderCharts(){
   const P=S.projetos,h=hojeISO(),out=[];
   // 1. projetos por status
-  const COR={naoiniciado:"c-idle",andamento:"c-acc",aguardando:"c-warn",aprovacao:"c-warn",standby:"c-warn",concluido:"c-ok",cancelado:"c-bad"};
+  const COR={naoiniciado:"c-idle",andamento:"c-acc",aguardando:"c-warn",aprovacao:"c-warn",standby:"c-orange",concluido:"c-ok",cancelado:"c-bad"};
   const st=STATUS.map(([v,l])=>({nome:l,partes:[{v:S.resumo.filter(r=>r.status===v).length,c:COR[v],l:"projetos"}]})).filter(r=>r.partes[0].v>0);
   out.push(`<div class="panel"><div class="panel-h"><h3>Projetos por status</h3></div><div class="chart-b">${hbars(st,Math.max(1,...st.map(r=>r.partes[0].v)),v=>String(v))}</div></div>`);
   // 2. tarefas abertas por pessoa
@@ -839,7 +886,9 @@ function renderCharts(){
   // 3. novos projetos por mês (para a equipe, só os projetos em que participa)
   const nov={};
   P.forEach(p=>{let k;if(p.inicio)k=p.inicio.slice(0,7);else if(p.criado){const d=new Date(p.criado);k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")}else return;nov[k]=(nov[k]||0)+1});
-  out.push(timeline("nov","Novos projetos por mês",nov,{fmt:v=>v+" projeto"+(v===1?"":"s"),curto:v=>String(v),cor:"c-acc",baixo:true,minMax:4}));
+  const cats=[...CATS.map(([c])=>c),""].map(c=>({nome:c||"Sem categoria",partes:[{v:P.filter(p=>categoria(p.servico)===c).length,c:"c-acc",l:"projetos"}]})).filter(r=>r.partes[0].v>0);
+  out.push(`<div class="panel"><div class="panel-h"><h3>Projetos por categoria</h3></div><div class="chart-b">${hbars(cats,Math.max(1,...cats.map(r=>r.partes[0].v)),v=>String(v))}</div></div>`);
+  out.push(timeline("nov","Novos projetos por mês",nov,{fmt:v=>v+" projeto"+(v===1?"":"s"),curto:v=>String(v),cor:"c-acc",baixo:true,minMax:4,meia:true}));
   montarTL($("charts"),out.join(""));
 }
 const curtoR=v=>v>=1e6?(v/1e6).toLocaleString("pt-BR",{maximumFractionDigits:1})+"mi":v>=1e3?(v/1e3).toLocaleString("pt-BR",{maximumFractionDigits:v>=1e4?0:1})+"k":String(Math.round(v));
@@ -855,7 +904,7 @@ function timeline(id,titulo,dados,o){
   const totAno=y=>meses.filter(x=>x.y===y).reduce((s,x)=>s+x.v,0);
   const anos=[];for(let y=ini;y<=fim;y++)anos.push(y);
   const vazio=!chaves.length;
-  return `<div class="panel chart-wide"><div class="panel-h"><h3>${titulo}</h3>
+  return `<div class="panel${o.meia?"":" chart-wide"}" style="min-width:0"><div class="panel-h"><h3>${titulo}</h3>
     <div class="tools tl-tools"><button class="btn ghost" type="button" data-tlmove="${id}" data-dir="-1" aria-label="Voltar um ano">‹</button>
       <div class="seg" role="group" aria-label="Ir para o ano">${(anosDados.length?anosDados:[anoAtual]).map(y=>`<button type="button" data-tlano="${id}" data-y="${y}" aria-pressed="false">${y}</button>`).join("")}</div>
       <button class="btn ghost" type="button" data-tlmove="${id}" data-dir="1" aria-label="Avançar um ano">›</button></div></div>
@@ -927,13 +976,14 @@ function filtroStatusOpts(){
   return '<option value="ativos">Ativos (sem concluídos/cancelados)</option><option value="todos">Todos</option><option value="atrasados">Atrasados</option><option value="pagpend">Pagamento pendente</option>'+STATUS.map(([v,l])=>`<option value="${v}">${l}</option>`).join("");
 }
 function renderProjetos(){
-  const h=hojeISO(),q=norm($("busca").value),fs=$("fStatus").value,rp=$("fResp").value,fp=S.admin?$("fPag").value:"";
+  const h=hojeISO(),q=norm($("busca").value),fs=$("fStatus").value,rp=$("fResp").value,fp=$("fPag").value,fc=$("fCat").value;
   const lista=S.projetos.filter(p=>{
     if(fs==="ativos"&&fechado(p))return false;
     if(fs==="atrasados"&&!(!fechado(p)&&((p.prazo&&p.prazo<h&&!realizado(p))||p.etapas.some(e=>e.prazo&&e.prazo<h&&!tarefaFeita(e)))))return false;
     if(ST[fs]&&p.status!==fs)return false;
     if(rp&&norm(p.responsavel)!==norm(rp)&&!p.participantes.some(n=>norm(n)===norm(rp))&&!p.etapas.some(e=>norm(e.responsavel)===norm(rp)))return false;
     if(fs==="pagpend"&&!pagPendente(p))return false;
+    if(fc&&(fc==="-"?categoria(p.servico)!=="":categoria(p.servico)!==fc))return false;
     if(fp==="pendente"&&!(aReceber(p)>0))return false;
     if(fp==="quitado"&&!(p.valor>0&&p.pago>=p.valor))return false;
     if(fp==="semvalor"&&p.valor>0)return false;
@@ -949,8 +999,8 @@ function renderProjetos(){
       <td class="date ${cp}">${fmt(p.prazo)}</td>
       <td><span class="pill st-${esc(p.status)}">${esc(ST[p.status])}</span></td>
       <td><div class="pct"><div class="bar v${bucket(pr)}"><i style="width:${pr}%"></i></div>${pr}%</div></td>
-      <td class="num so-admin">${p.valor?brl(p.valor):'<span class="sub">—</span>'}</td>
-      <td class="num so-admin">${!p.valor?'<span class="sub">—</span>':saldo<=0?'<span class="quit">Quitado</span>':pagPendente(p)?`<span class="pend" style="color:var(--bad)">${brl(saldo)}</span><div class="sub">cobrar</div>`:`<span class="pend">${brl(saldo)}</span>${p.status==="standby"?'<div class="sub">standby</div>':""}`}</td>
+      <td class="num">${p.valor?brl(p.valor):'<span class="sub">—</span>'}</td>
+      <td class="num">${!p.valor?'<span class="sub">—</span>':saldo<=0?'<span class="quit">Quitado</span>':pagPendente(p)?`<span class="pend" style="color:var(--bad)">${brl(saldo)}</span><div class="sub">cobrar</div>`:`<span class="pend">${brl(saldo)}</span>${p.status==="standby"?'<div class="sub">standby</div>':""}`}</td>
     </tr>`}).join("");
   const vz=$("vazio");
   if(!S.carregado){vz.hidden=false;vz.innerHTML="<strong>Carregando projetos…</strong>"}
@@ -1008,12 +1058,12 @@ function abrir(os){
   edit=p?JSON.parse(JSON.stringify(p)):normProjeto({os:proximaOS(),status:"naoiniciado",responsavel:S.eu.nome||""});
   edit._base=p?p.atualizado:null;
   $("pStatus").innerHTML=STATUS.map(([v,l])=>`<option value="${v}">${l}</option>`).join("");
-  $("pOS").value=edit.os;$("pStatus").value=edit.status;$("pLocal").value=edit.local;$("pServico").value=edit.servico;$("pCliente").value=edit.cliente;
+  $("pOS").value=edit.os;$("pStatus").value=edit.status;$("pLocal").value=edit.local;montarServico(edit.servico);$("pCliente").value=edit.cliente;
   $("pResp").innerHTML=opcoesPessoas(edit.responsavel,"— escolher —");$("pResp").value=edit.responsavel;$("pPrazo").value=edit.prazo||"";$("pInicio").value=edit.inicio||(p?"":hojeISO());$("pObs").value=edit.obs;
   $("pValor").value=edit.valor?brl(edit.valor):"";
   edit.etapas.forEach(e=>e._novo=false);
   const travado=!S.admin;
-  ["pOS","pLocal","pServico","pCliente","pResp","pInicio","pPrazo","pObs","pPart"].forEach(id=>$(id).disabled=travado||!S.podeEscrever);
+  ["pOS","pLocal","pServSel","pCliente","pResp","pInicio","pPrazo","pObs","pPart"].forEach(id=>$(id).disabled=travado||!S.podeEscrever);
   $("pStatus").disabled=!S.podeEscrever;$("lockMsg").hidden=!travado;
   renderPags();
   $("pErro").hidden=true;$("btnExcluir").hidden=!p;confirmaExcluir=false;$("btnExcluir").textContent="Excluir projeto";
@@ -1023,7 +1073,7 @@ function abrir(os){
     const dt=typeof p.atualizado==="number"?new Date(p.atualizado):new Date(p.atualizado);
     info="Atualizado "+dt.toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})+(quem?" por "+quem:"")}
   $("shInfo").textContent=info;
-  saldo();cabecalho();renderChips();renderSteps();
+  saldo();cabecalho();renderChips();renderSteps();btnModelo();
   $("sheet").hidden=false;document.body.classList.add("sheet-open");
   renderProjetos();
   requestAnimationFrame(()=>{$("sec-projetos").scrollIntoView({behavior:"smooth",block:"start"});const tr=document.querySelector(`#tbody tr[data-os="${CSS.escape(origOS||"")}"]`);tr?.scrollIntoView({block:"nearest"})});
@@ -1043,7 +1093,9 @@ function saldo(){
 $("pValor").addEventListener("input",saldo);
 $("pValor").addEventListener("blur",()=>{const v=parseMoney($("pValor").value);$("pValor").value=v?brl(v):""});
 function renderPags(){
-  $("pags").innerHTML=edit.pagamentos.length?edit.pagamentos.map((x,i)=>`<div class="pag" data-i="${i}"><input type="date" id="pg-d-${x.id}" data-k="data" value="${esc(x.data)}" aria-label="Data do pagamento"><input class="money" id="pg-v-${x.id}" data-k="valor" value="${x.valor?esc(brl(x.valor)):""}" placeholder="R$ 0,00" inputmode="decimal" aria-label="Valor pago"><button class="x" type="button" data-delpag="${i}" aria-label="Remover pagamento">×</button></div>`).join(""):'<div class="hint">Nenhum pagamento lançado.</div>';
+  const ro=!S.admin?" disabled":"";
+  $("pags").innerHTML=edit.pagamentos.length?edit.pagamentos.map((x,i)=>`<div class="pag" data-i="${i}"><input type="date" id="pg-d-${x.id}" data-k="data" value="${esc(x.data)}" aria-label="Data do pagamento"${ro}><input class="money" id="pg-v-${x.id}" data-k="valor" value="${x.valor?esc(brl(x.valor)):""}" placeholder="R$ 0,00" inputmode="decimal" aria-label="Valor pago"${ro}><button class="x" type="button" data-delpag="${i}" aria-label="Remover pagamento"${ro}>×</button></div>`).join(""):'<div class="hint">Nenhum pagamento lançado.</div>';
+  $("pValor").disabled=!S.admin;$("addPag").hidden=!S.admin;
   saldo();
 }
 $("pags").addEventListener("input",ev=>{const t=ev.target,k=t.dataset.k;if(!k)return;const x=edit.pagamentos[+t.closest(".pag").dataset.i];if(k==="data")x.data=t.value;else{x.valor=parseMoney(t.value)}saldo()});
@@ -1067,20 +1119,112 @@ function aplicarAuto(){
 function renderSteps(){
   const el=$("steps");
   $("stepCols").hidden=!edit.etapas.length;
-  if(!edit.etapas.length){el.innerHTML='<div class="hint">Nenhuma etapa ainda. Ex.: Levantamento, Desenho, Entrada na prefeitura, Aprovação.</div>';cabecalho();return}
+  if(!edit.etapas.length){el.innerHTML='<div class="hint">Nenhuma etapa ainda. Ex.: Levantamento, Desenho, Entrada na prefeitura, Aprovação.</div>';cabecalho();syncEntrega();$("atribTodas").hidden=true;$("limparEtapas").hidden=true;return}
   el.innerHTML=edit.etapas.map((e,i)=>{const dis=!podeTarefa(e),disR=dis||(!S.admin&&!e._novo),disX=dis||(!S.admin&&!e._novo);return `
     <div class="step v${e.pct}${e.status==="concluido"?" done":""}${dis?" locked":""}" data-i="${i}">
       ${S.admin?`<span class="grip" title="Segure e arraste para mudar a ordem" aria-hidden="true">⋮⋮</span>`:"<span></span>"}
       <input class="nm" id="st-n-${e.id}" data-k="nome" value="${esc(e.nome)}" placeholder="Nome da etapa" aria-label="Nome da etapa"${dis?" disabled":""}>
       <select id="st-r-${e.id}" data-k="responsavel" aria-label="Responsável"${disR?" disabled":""}>${opcoesPessoas(e.responsavel,"— responsável —")}</select>
-      <input type="date" id="st-d-${e.id}" data-k="prazo" value="${esc(e.prazo)}" aria-label="Prazo da etapa"${dis?" disabled":""}>
+      <div class="dcell"><input type="date" id="st-d-${e.id}" data-k="prazo" value="${esc(e.prazo)}" aria-label="Prazo da etapa"${dis?" disabled":""}>${e.vinc&&e.dias?`<span class="vinc" title="Prazo vinculado: ${e.dias} dias após ${i===0&&e.ancora?"o início do serviço":e.apos?esc(e.apos.map(id=>edit.etapas.find(x=>x.id===id)?.nome||"?").join(" / ")):"a etapa anterior"}. Mude a data para soltar.">+${e.dias}d${i===0&&e.ancora?" do início":""}</span>`:""}</div>
       ${selStatusT(e.status,dis)}
       ${segPct(e.pct,dis)}
       <div class="acts">${S.admin?`<button class="mvb" type="button" data-mv="-1" aria-label="Subir etapa"${i===0?" disabled":""}>▲</button><button class="mvb" type="button" data-mv="1" aria-label="Descer etapa"${i===edit.etapas.length-1?" disabled":""}>▼</button>`:""}<button class="x" type="button" data-del="${i}" aria-label="Remover etapa"${disX?" disabled":""}>×</button></div>
     </div>`}).join("");
-  cabecalho();
+  cabecalho();syncEntrega();
+  $("atribTodas").innerHTML=`<option value="">Atribuir todas as etapas a…</option>`+equipeLista().map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join("");
+  $("atribTodas").hidden=!edit.etapas.length;
+  $("limparEtapas").hidden=!edit.etapas.length||!S.podeEscrever;resetLimpar();
 }
+// excluir todas: pede um segundo clique para confirmar (só vale depois de Salvar; Cancelar desfaz)
+let limparT=null;
+function resetLimpar(){clearTimeout(limparT);$("limparEtapas").dataset.conf="";$("limparEtapas").textContent="Excluir todas as etapas"}
+$("limparEtapas").onclick=()=>{
+  const b=$("limparEtapas");if(!edit||!S.admin)return;
+  if(!b.dataset.conf){b.dataset.conf="1";b.textContent=`Confirmar: excluir ${edit.etapas.length} etapa${edit.etapas.length>1?"s":""}`;clearTimeout(limparT);limparT=setTimeout(resetLimpar,5000);return}
+  edit.etapas=[];aplicarAuto();renderSteps();btnModelo();toast("Etapas excluídas. Clique em Salvar para confirmar ou Cancelar para desfazer.");
+};
+$("atribTodas").addEventListener("change",()=>{const v=$("atribTodas").value;if(!v||!edit)return;edit.etapas.forEach(e=>e.responsavel=v);renderSteps();toast(`Todas as etapas atribuídas a ${v}`)});
 $("steps").addEventListener("input",ev=>{const t=ev.target,k=t.dataset.k;if(!k||k==="status")return;edit.etapas[+t.closest(".step").dataset.i][k]=t.value});
+// prazo alterado à mão: esta etapa deixa de seguir a anterior, e as seguintes vinculadas se recalculam a partir dela
+// (atualiza só as outras linhas, sem redesenhar a que está sendo digitada, para não travar a digitação do ano)
+$("steps").addEventListener("change",ev=>{const t=ev.target;if(t.dataset.k!=="prazo")return;const row=t.closest(".step"),i=+row.dataset.i;
+  edit.etapas[i].prazo=t.value;
+  if(edit.etapas[i].vinc){edit.etapas[i].vinc=false;row.querySelector(".vinc")?.remove()}
+  if(!/^(19|20)\d\d-/.test(t.value))return; // ano ainda sendo digitado
+  if(S.admin&&recalcPrazos(i)){atualizarDatasDOM(i);toast("Prazos das etapas seguintes recalculados")}
+  syncEntrega()});
+function atualizarDatasDOM(exceto){$("steps").querySelectorAll(".step").forEach(r=>{const k=+r.dataset.i;if(k===exceto)return;const inp=r.querySelector('input[data-k="prazo"]');if(inp&&inp.value!==edit.etapas[k].prazo)inp.value=edit.etapas[k].prazo})}
+// prazo de entrega do projeto = prazo da última etapa da lista
+function syncEntrega(){
+  if(!edit)return;const ult=edit.etapas.length?edit.etapas[edit.etapas.length-1]:null,trava=!!(ult&&ult.prazo);
+  if(trava)$("pPrazo").value=ult.prazo;
+  $("pPrazo").disabled=trava||!S.admin||!S.podeEscrever;$("pPrazo").title=trava?"Igual ao prazo da última etapa":"";
+  $("prazoHint").hidden=!trava;
+}
+// mudar o início do serviço recalcula a etapa ancorada nele (ex.: Anteprojeto = início + 30 dias)
+$("pInicio").addEventListener("change",()=>{if(!edit||!S.admin||!/^(19|20)\d\d-/.test($("pInicio").value))return;if(recalcPrazos(-1)){atualizarDatasDOM(-1);syncEntrega();toast("Prazos das etapas recalculados a partir do início")}});
+// recalcula todas as etapas vinculadas. Base = início do serviço (âncora), etapas indicadas em "apos" (a mais tardia delas) ou a etapa anterior da lista
+function baseDe(e,i){const E=edit.etapas;
+  if(e.ancora==="inicio"&&i===0)return $("pInicio").value||"";
+  if(e.apos){const ds=e.apos.map(id=>E.find(x=>x.id===id)?.prazo).filter(Boolean);return ds.length===e.apos.length?ds.sort().pop():""}
+  return i>0?E[i-1].prazo:"";
+}
+function recalcPrazos(){
+  let mud=false;const E=edit.etapas;
+  for(let passo=0;passo<3;passo++)E.forEach((e,i)=>{if(!e.vinc||!e.dias)return;const b=baseDe(e,i);if(!b)return;const novo=addDias(b,e.dias);if(novo!==e.prazo){e.prazo=novo;mud=true}});
+  return mud;
+}
+// INFRA: uma vistoria, depois Preliminar e Elaboração para cada item marcado (em paralelo), e Correção e ART depois da última elaboração
+function etapasInfra(quem){
+  const itens=[...$("pServExtra").querySelectorAll("input:checked")].map(x=>x.value);
+  const lista=itens.length?itens:["Geral"];
+  const v=normEtapa({id:rid(),nome:"Vistoria / Levantamento de Documentação",responsavel:quem}),out=[v],elabs=[];
+  lista.forEach(it=>{const sfx=it==="Geral"?"":" - "+norm(it);
+    const pr=normEtapa({id:rid(),nome:"Projeto Preliminar Definição de Traçado"+sfx,dias:15,apos:[v.id],responsavel:quem});pr.vinc=true;
+    const el=normEtapa({id:rid(),nome:"Elaboração Projeto Final e Memoriais"+sfx,dias:20,apos:[pr.id],responsavel:quem});el.vinc=true;
+    out.push(pr,el);elabs.push(el.id)});
+  const c=normEtapa({id:rid(),nome:"Correção e ART",dias:5,apos:elabs,responsavel:quem});c.vinc=true;out.push(c);
+  return out;
+}
+function inserirModelo(){
+  const m=modeloDe($("pServico").value);if(!m||!edit)return;
+  const base=edit.etapas.length?edit.etapas[edit.etapas.length-1]:null;
+  const quem=$("pResp").value||S.eu.nome||"";
+  if(categoria($("pServico").value)==="INFRA"){etapasInfra(quem).forEach(e=>{e._novo=true;edit.etapas.push(e)})}
+  else m.forEach(([nome,dias,ancora],k)=>{const e=normEtapa({id:rid(),nome,dias,ancora:!base&&k===0?ancora:null,responsavel:quem});e.vinc=!!dias&&(k>0||!!base||!!e.ancora);e._novo=true;edit.etapas.push(e)});
+  recalcPrazos();
+  aplicarAuto();renderSteps();btnModelo();
+  toast(edit.etapas[0]&&edit.etapas[0].ancora?"Etapas padrão inseridas, com prazos contados a partir do início do serviço.":"Etapas padrão inseridas. Defina o prazo da primeira etapa e as demais se ajustam.");
+}
+// campo Serviço: lista por grupos; INFRA abre caixinhas e PESSOAL abre texto livre
+function montarServico(v){
+  v=migraServ(v);const cat=categoria(v),sel=$("pServSel");
+  const conhecido=!v||SERVICOS.includes(v)||cat==="INFRA"||cat==="PESSOAL";
+  sel.innerHTML=`<option value="">— escolher —</option>`+(conhecido?"":`<option value="${esc(v)}">${esc(v)} (fora da lista)</option>`)+
+    CATS.map(([c,l])=>l?`<optgroup label="${c}">${l.map(n=>`<option value="${esc(c+" - "+n)}">${esc(n)}</option>`).join("")}</optgroup>`:`<optgroup label="${c}"><option value="${c}">${c==="INFRA"?"Infraestrutura (marque os itens)":"Pessoal (digite o serviço)"}</option></optgroup>`).join("");
+  sel.value=cat==="INFRA"||cat==="PESSOAL"?cat:v;
+  const resto=v.includes(" - ")?v.split(" - ").slice(1).join(" - "):"";
+  renderServExtra(sel.value,resto);$("pServico").value=v;
+}
+function renderServExtra(cat,resto){
+  const ex=$("pServExtra"),dis=!S.admin||!S.podeEscrever?" disabled":"";
+  if(cat==="INFRA"){const marc=resto.split(",").map(x=>norm(x));ex.innerHTML=INFRA_ITENS.map(n=>`<label><input type="checkbox" value="${esc(n)}"${marc.includes(norm(n))?" checked":""}${dis}>${esc(n)}</label>`).join("");ex.hidden=false}
+  else if(cat==="PESSOAL"){ex.innerHTML=`<input type="text" id="pServLivre" value="${esc(resto)}" placeholder="Ex.: Projeto Arquitetônico"${dis}>`;ex.hidden=false}
+  else{ex.innerHTML="";ex.hidden=true}
+}
+function comporServico(){
+  const c=$("pServSel").value;
+  if(c==="INFRA"){const l=[...$("pServExtra").querySelectorAll("input:checked")].map(x=>x.value);return l.length?"INFRA - "+l.join(", "):"INFRA"}
+  if(c==="PESSOAL"){const t=($("pServLivre")?.value||"").trim();return t?"PESSOAL - "+t:"PESSOAL"}
+  return c;
+}
+function servicoMudou(dispara){$("pServico").value=comporServico();if(dispara)$("pServico").dispatchEvent(new Event("change"))}
+$("pServSel").addEventListener("change",()=>{renderServExtra($("pServSel").value,"");servicoMudou(true);if($("pServSel").value==="INFRA"&&edit&&!edit.etapas.length)toast("Marque os itens (Água, Esgoto...) e clique em \"+ Inserir etapas padrão\"")});
+$("pServExtra").addEventListener("change",()=>servicoMudou(true));
+$("pServExtra").addEventListener("input",()=>servicoMudou(false));
+function btnModelo(){const m=modeloDe($("pServico").value);$("addModelo").hidden=!(m&&S.admin&&S.podeEscrever);if(m)$("addModelo").textContent=edit&&edit.etapas.length?"+ Inserir etapas padrão":"+ Inserir etapas padrão";}
+// INFRA não insere sozinho: primeiro você marca os itens e depois clica em "+ Inserir etapas padrão"
+$("pServico").addEventListener("change",()=>{btnModelo();if(edit&&!edit.etapas.length&&modeloDe($("pServico").value)&&S.admin&&categoria($("pServico").value)!=="INFRA")inserirModelo()});
 $("steps").addEventListener("change",ev=>{const t=ev.target;if(t.dataset.k!=="status")return;setStatus(edit.etapas[+t.closest(".step").dataset.i],t.value);aplicarAuto();renderSteps()});
 $("pStatus").addEventListener("change",()=>{if(edit)edit.statusAnterior=null});
 $("steps").addEventListener("click",ev=>{
@@ -1117,8 +1261,9 @@ function soltar(){
 }
 $("steps").addEventListener("pointerup",soltar);
 $("steps").addEventListener("pointercancel",soltar);
+$("addModelo").onclick=inserirModelo;
 $("ordData").onclick=()=>{if(!edit)return;edit.etapas=edit.etapas.map((e,i)=>({e,i})).sort((a,b)=>(a.e.prazo||"9999").localeCompare(b.e.prazo||"9999")||a.i-b.i).map(x=>x.e);renderSteps();toast("Etapas ordenadas por data (as sem data ficam no fim)")};
-$("addStep").onclick=()=>{const e=normEtapa({id:rid(),responsavel:S.admin?"":S.eu.nome});e._novo=true;edit.etapas.push(e);aplicarAuto();renderSteps();const ins=$("steps").querySelectorAll(".nm");ins[ins.length-1]?.focus()};
+$("addStep").onclick=()=>{const e=normEtapa({id:rid(),responsavel:S.admin?($("pResp").value||""):S.eu.nome});e._novo=true;edit.etapas.push(e);aplicarAuto();renderSteps();const ins=$("steps").querySelectorAll(".nm");ins[ins.length-1]?.focus()};
 $("partChips").addEventListener("click",ev=>{const b=ev.target.closest("[data-rm]");if(!b||!S.admin)return;edit.participantes.splice(+b.dataset.rm,1);renderChips()});
 function addPart(){if(!S.admin||!edit)return;const v=$("pPart").value.trim();if(v&&!edit.participantes.some(n=>norm(n)===norm(v)))edit.participantes.push(v);renderChips()}
 $("pPart").addEventListener("change",addPart);
@@ -1134,7 +1279,7 @@ $("btnSalvar").onclick=async()=>{
   if(os!==origOS&&S.projetos.some(p=>p.os===os))return erro(`A OS ${os} já existe. Use outro número.`);
   if(!$("pLocal").value.trim()&&!$("pCliente").value.trim())return erro("Preencha pelo menos o imóvel/local ou o cliente.");
   const p={...edit,os,status:$("pStatus").value,local:$("pLocal").value.trim(),servico:$("pServico").value.trim(),cliente:$("pCliente").value.trim(),
-    responsavel:$("pResp").value.trim(),prazo:$("pPrazo").value,inicio:$("pInicio").value,obs:$("pObs").value,
+    responsavel:$("pResp").value.trim(),prazo:(edit.etapas.length&&edit.etapas[edit.etapas.length-1].prazo)||$("pPrazo").value,inicio:$("pInicio").value,obs:$("pObs").value,
     etapas:edit.etapas.map(e=>({...e,nome:e.nome.trim(),responsavel:e.responsavel.trim()}))};
   autoStatus(p);
   if(S.admin){p.valor=parseMoney($("pValor").value);p.pagamentos=edit.pagamentos.filter(x=>x.valor>0).map(x=>({id:x.id,data:x.data||"",valor:x.valor}));p.pago=somaPags(p.pagamentos)}
@@ -1153,12 +1298,14 @@ $("btnExcluir").onclick=async()=>{
 $("btnCancelar").onclick=fechar;$("shFechar").onclick=fechar;
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(!$("modalSenha").hidden)fecharSenha();else if(!$("sheet").hidden)fechar()}});
 $("btnNovo").onclick=()=>abrir(null);
+$("sideNovo").onclick=()=>{if(S.podeEscrever)abrir(null)};
 
 /* ---------- navegação e filtros ---------- */
 function abrirDe(ev){const el=ev.target.closest("[data-os]");if(el&&!ev.target.closest(".task"))abrir(el.dataset.os)}
 ["tbody","prazos","cal"].forEach(id=>$(id).addEventListener("click",abrirDe));
 ["tbody","prazos"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter")abrirDe(e)}));
-["busca","fStatus","fResp","fPag"].forEach(id=>$(id).addEventListener("input",renderProjetos));
+["busca","fStatus","fResp","fPag","fCat"].forEach(id=>$(id).addEventListener("input",renderProjetos));
+$("fCat").innerHTML='<option value="">Todas as categorias</option>'+CATS.map(([c])=>`<option value="${c}">${c}</option>`).join("")+'<option value="-">Sem categoria</option>';
 $("fStatus").innerHTML=filtroStatusOpts();
 $("chipTarefas").onclick=()=>$("sec-tarefas").scrollIntoView({behavior:"smooth"});
 $("chipOS").onclick=()=>{if(S.podeEscrever&&S.admin)abrir(null)};
@@ -1216,10 +1363,8 @@ const fonteSupabase={
     const {data,error}=await sb.from("projetos").select("*").eq("empresa",EMPRESA);
     if(error){aviso("Não foi possível carregar os projetos: "+error.message);return}
     let fin={};
-    let pend=null;
-    if(S.admin){const r=await sb.from("financeiro").select("*");if(r.error)aviso("Valores não carregados: "+r.error.message);(r.data||[]).forEach(f=>fin[f.os]=f)}
-    else{const r=await sb.rpc("os_pagamento_pendente");pend=new Set((r.data||[]).map(x=>typeof x==="string"?x:x.os))}
-    S.projetos=S.todos=(data||[]).map(r=>normProjeto({...r,valor:fin[r.os]?.valor,pagamentos:fin[r.os]?.pagamentos,_pagPend:pend?pend.has(r.os):undefined}));
+    {const r=await sb.from("financeiro").select("*");if(r.error)aviso("Valores não carregados: "+r.error.message);(r.data||[]).forEach(f=>fin[f.os]=f)}
+    S.projetos=S.todos=(data||[]).map(r=>normProjeto({...r,valor:fin[r.os]?.valor,pagamentos:fin[r.os]?.pagamentos}));
     S.resumo=S.projetos.map(resumoDe);
     S.carregado=true;render();
   },
@@ -1259,7 +1404,7 @@ async function entrouSupabase(user){
   await fonteSupabase.recarregar();
   if(!canal){let t;const rl=()=>{clearTimeout(t);t=setTimeout(()=>fonteSupabase.recarregar(),300)};
     canal=sb.channel("mudancas").on("postgres_changes",{event:"*",schema:"public",table:"projetos"},rl);
-    if(S.admin)canal.on("postgres_changes",{event:"*",schema:"public",table:"financeiro"},rl);
+    canal.on("postgres_changes",{event:"*",schema:"public",table:"financeiro"},rl);
     canal.subscribe();}
 }
 function saiuSupabase(){S.projetos=[];S.carregado=false;if(canal){sb.removeChannel(canal);canal=null}if(!$("sheet").hidden)fechar();$("app").hidden=true;$("login").hidden=false;$("lSenha").value=""}
@@ -1331,6 +1476,11 @@ let fonte;
 const temSupabase=!!window.supabase&&!SUPABASE_URL.startsWith("COLE_");
 if(temSupabase){
   fonte=fonteSupabase;
+  // tema: azul-escuro por padrão para todos; cada pessoa pode trocar (fica salvo no navegador dela)
+  const rotTema=()=>{$("mTema").textContent=(document.documentElement.dataset.theme||"dark")==="dark"?"Usar tema claro":"Usar tema escuro"};
+  if(!document.documentElement.dataset.theme)document.documentElement.dataset.theme=lsGet("tema","dark");
+  $("mTema").hidden=false;rotTema();
+  $("mTema").onclick=()=>{const t=(document.documentElement.dataset.theme||"dark")==="dark"?"light":"dark";document.documentElement.dataset.theme=t;lsSet("tema",t);rotTema()};
   // aceita a URL mesmo se vier com /rest/v1/ no final
   sb=window.supabase.createClient(SUPABASE_URL.trim().replace(/\/rest\/v1\/?$/,"").replace(/\/+$/,""),SUPABASE_KEY.trim());
   let ultimo;
