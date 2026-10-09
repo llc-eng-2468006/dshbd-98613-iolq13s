@@ -253,8 +253,8 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
 .pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
 .st-andamento{background:var(--accent-soft);color:var(--accent)}
 .st-concluido{background:var(--ok-soft);color:var(--ok)}
-.st-aguardando,.st-aprovacao{background:var(--warn-soft);color:var(--warn)}
-.st-standby{background:var(--orange-soft);color:var(--orange)}
+.st-standby,.st-aprovacao{background:var(--warn-soft);color:var(--warn)}
+.st-aguardando{background:var(--orange-soft);color:var(--orange)}
 .c-orange{background:var(--orange)}
 .st-naoiniciado,.st-afazer{background:var(--idle-soft);color:var(--idle)}
 .st-cancelado{background:var(--bad-soft);color:var(--bad)}
@@ -358,7 +358,7 @@ body.arrastando,body.arrastando *{cursor:grabbing!important;user-select:none}
 .f{display:flex;flex-direction:column;gap:4px;min-width:0}
 .f label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
 .f input,.f select,.f textarea{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:8px 10px;width:100%;min-width:0}
-.f textarea{resize:vertical;min-height:40px;height:40px}
+.f textarea{resize:vertical;min-height:40px;height:40px;transition:height .15s ease;line-height:1.4}
 .f input.mono{font-family:var(--font-mono);font-weight:600}
 .f input.money{text-align:right;font-variant-numeric:tabular-nums}
 .f .saldo{padding:8px 10px;border-radius:6px;background:var(--surface-2);font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
@@ -483,6 +483,7 @@ select option{background:var(--surface);color:var(--fg)}
   <header class="topbar">
     <div><h1>Painel de Projetos</h1><div class="hoje" id="hojeTxt"></div></div>
     <div class="grow"></div>
+    <button class="chipk" id="chipTotal" type="button" title="Ver todos os projetos"><span>Projetos</span><b id="totProj">—</b></button>
     <button class="chipk" id="chipTarefas" type="button"></button>
     <button class="chipk os so-admin" id="chipOS" type="button"><span>Próxima OS</span><b id="proxOS">—</b></button>
     <button class="btn primary so-admin" id="btnNovo" type="button">+ Novo projeto</button>
@@ -503,6 +504,7 @@ select option{background:var(--surface);color:var(--fg)}
           <button type="button" data-rail="tudo" aria-pressed="true">Tudo</button>
           <button type="button" data-rail="minhas" aria-pressed="false">Somente minhas tarefas</button>
         </div>
+        <div class="seg" role="group" aria-label="Quais etapas mostrar"><button type="button" data-railmodo="proximos" aria-pressed="true">Só os próximos passos</button><button type="button" data-railmodo="todos" aria-pressed="false">Todos</button></div>
         <p id="railSub"></p>
       </div>
       <div class="rail-list" id="prazos"></div>
@@ -543,7 +545,7 @@ select option{background:var(--surface);color:var(--fg)}
     </section>
 
     <section class="panel" id="sec-tarefas">
-      <div class="panel-h"><h2>Minhas tarefas</h2><span class="hint" id="tarefasSub"></span></div>
+      <div class="panel-h"><h2>Minhas tarefas</h2><span class="hint" id="tarefasSub"></span><div class="tools"><div class="seg" role="group" aria-label="Quais tarefas mostrar"><button type="button" data-tmodo="proximas" aria-pressed="true">Só as próximas</button><button type="button" data-tmodo="todas" aria-pressed="false">Todas</button></div></div></div>
       <div class="tasks" id="tarefas"></div>
     </section>
 
@@ -649,7 +651,8 @@ const ADMIN_EMAIL = "linyston@gmail.com";
 
 (function(){
 "use strict";
-const STATUS=[["naoiniciado","Não iniciado"],["andamento","Em andamento"],["aguardando","Aguardando retorno"],["standby","Standby"],["concluido","Concluído"],["cancelado","Cancelado"]];
+// ordem do início à finalização (usada no campo Status e no filtro)
+const STATUS=[["cancelado","Cancelado"],["aguardando","Aguardando retorno"],["standby","Standby"],["andamento","Em andamento"],["concluido","Concluído"]];
 const ST=Object.fromEntries(STATUS);
 const T_STATUS=[["afazer","A fazer"],["andamento","Em andamento"],["aguardando","Standby"],["concluido","Concluído"]];
 const TST=Object.fromEntries(T_STATUS);
@@ -708,7 +711,7 @@ const bucket=v=>Math.max(0,Math.min(100,Math.round((+v||0)/25)*25));
 
 /* ---------- estado ---------- */
 const S={projetos:[],todos:[],resumo:[],config:{ultimo_os:""},eu:{nome:"",email:""},admin:false,podeEscrever:true,carregado:false,equipe:[],
-  rail:lsGet("rail","tudo"),calTipo:lsGet("calTipo","todos"),calQuem:lsGet("calQuem","todas"),calRef:(()=>{const d=new Date();d.setDate(1);return d})()};
+  rail:lsGet("rail","tudo"),tarefasModo:lsGet("tarefasModo","proximas"),railModo:lsGet("railModo","proximos"),calTipo:lsGet("calTipo","todos"),calQuem:lsGet("calQuem","todas"),calRef:(()=>{const d=new Date();d.setDate(1);return d})()};
 
 /* ---------- modelo ---------- */
 function normEtapa(e){
@@ -724,9 +727,9 @@ function normPags(r){
 }
 const somaPags=l=>Math.round(l.reduce((s,x)=>s+(+x.valor||0),0)*100)/100;
 // status antigos que deixaram de existir
-const migraSt=v=>{v={pausado:"standby",documento:"aguardando",aprovacao:"andamento"}[v]||v;return ST[v]?v:null};
+const migraSt=v=>{v={pausado:"standby",documento:"aguardando",aprovacao:"andamento",naoiniciado:"aguardando"}[v]||v;return ST[v]?v:null};
 function normProjeto(r){
-  const p={os:r.os,empresa:r.empresa||"engenharia",status:migraSt(r.status)||"naoiniciado",statusAnterior:migraSt(r.status_anterior),
+  const p={os:r.os,empresa:r.empresa||"engenharia",status:migraSt(r.status)||"aguardando",statusAnterior:migraSt(r.status_anterior),
     local:r.local||"",servico:migraServ(r.servico),cliente:r.cliente||"",responsavel:r.responsavel||"",participantes:Array.isArray(r.participantes)?r.participantes:[],
     prazo:r.prazo||"",inicio:r.data_inicio||"",obs:r.obs||"",etapas:(Array.isArray(r.etapas)?r.etapas:[]).map(normEtapa),valor:+r.valor||0,pagamentos:normPags(r),
     criado:r.criado_em?Date.parse(r.criado_em):(r.criadoEm||null),atualizado:r.atualizado_em??r.atualizadoEm??null,
@@ -776,12 +779,15 @@ function proximaOS(){
   return String(ano).padStart(2,"0")+"."+String(max+1).padStart(2,"0");
 }
 function classePrazo(d){if(!d)return "";const h=hojeISO();if(d<h)return "late";if(d<=addDias(h,7))return "soon";return ""}
+// etapa liberada = todas as etapas de que ela depende já concluídas ("apos" ou, sem isso, a anterior da lista)
+function liberadaEm(p,e){const E=p.etapas,i=E.indexOf(e);const deps=e.apos?e.apos.map(id=>E.find(x=>x.id===id)).filter(Boolean):(i>0?[E[i-1]]:[]);return deps.every(tarefaFeita)}
 function eventos(){
   const out=[];
   for(const p of S.projetos){
     if(fechado(p))continue;
     if(p.prazo&&!realizado(p))out.push({tipo:"entrega",os:p.os,data:p.prazo,titulo:p.servico||"Entrega",local:p.local,resp:p.responsavel,meu:envolvido(p)});
-    for(const e of p.etapas)if(e.prazo&&!tarefaFeita(e))out.push({tipo:"tarefa",os:p.os,id:e.id,data:e.prazo,titulo:e.nome||"Tarefa",local:p.local,resp:e.responsavel,meu:ehMeu(e.responsavel),pct:e.pct,status:e.status});
+    const minhasAb=p.etapas.filter(e=>ehMeu(e.responsavel)&&!tarefaFeita(e)),algumaMinhaLib=minhasAb.some(e=>liberadaEm(p,e));
+    for(const e of p.etapas)if(e.prazo&&!tarefaFeita(e))out.push({liberada:liberadaEm(p,e),proxMinha:!algumaMinhaLib&&e===minhasAb[0],tipo:"tarefa",os:p.os,id:e.id,data:e.prazo,titulo:e.nome||"Tarefa",local:p.local,resp:e.responsavel,meu:ehMeu(e.responsavel),pct:e.pct,status:e.status});
   }
   return out.sort((a,b)=>a.data.localeCompare(b.data)||(a.tipo==="entrega"?-1:1));
 }
@@ -810,18 +816,18 @@ function renderKPIs(evs){
   const atras=R.filter(r=>aberto(r)&&((r.prazo&&r.prazo<h&&!r.realizado)||r.abertas.some(d=>d<h)));
   const dentro=d=>d>=h&&d<=sem;
   const v7=R.filter(aberto).reduce((n,r)=>n+(r.prazo&&!r.realizado&&dentro(r.prazo)?1:0)+r.abertas.filter(dentro).length,0);
-  const minhas=[];P.forEach(p=>{if(fechado(p))return;p.etapas.forEach(e=>{if(ehMeu(e.responsavel)&&!tarefaFeita(e))minhas.push(e)})});
+  const minhas=minhasTarefas().map(x=>x.e);
   const minhasAtr=minhas.filter(e=>e.prazo&&e.prazo<h).length;
   const pp=R.filter(r=>r.pagPend),cobrar=P.filter(pagPendente).reduce((s,p)=>s+Math.max(p.valor-p.pago,0),0);
   const c=st=>R.filter(r=>r.status===st).length;
   const k=[
     {id:"atrasados",lbl:"Atrasados",n:atras.length,sub:"projetos com prazo vencido",cls:"k-bad"},
     {id:"v7",lbl:"Vencem em 7 dias",n:v7,sub:"entregas e tarefas",cls:"k-warn"},
-    {id:"abertos",lbl:"Em andamento",n:abertos.length,sub:"projetos abertos",cls:"k-acc"},
-    {id:"standby",lbl:"Standby",n:c("standby"),sub:"projetos parados",cls:"k-orange"},
-    {id:"pagpend",lbl:"Pagamento pendente",n:pp.length,sub:pp.length?brl(cobrar)+" para cobrar":"nada para cobrar",cls:"k-bad"},
+    {id:"standby",lbl:"Standby",n:c("standby"),sub:"projetos parados",cls:"k-warn"},
+    {id:"abertos",lbl:"Em andamento",n:c("andamento"),sub:"projetos",cls:"k-acc"},
+    {id:"pagpend",lbl:"Pagamento pendente (cobrar)",n:pp.length,sub:pp.length?brl(cobrar)+" para cobrar":"nada para cobrar",cls:"k-bad"},
+    {id:"aguardando",lbl:"Aguardando retorno (orçamento)",n:c("aguardando"),sub:"projetos",cls:"k-orange"},
     {id:"concluido",lbl:"Concluídos",n:c("concluido"),sub:"projetos",cls:"k-ok"},
-    {id:"aguardando",lbl:"Aguardando retorno (orçamento)",n:c("aguardando"),sub:"projetos",cls:"k-warn"},
     {id:"cancelado",lbl:"Cancelados",n:c("cancelado"),sub:"projetos",cls:"k-bad"}
   ];
   $("kpis").innerHTML=k.map(x=>`<button type="button" class="kpi ${x.cls}${x.n===0?" zero":""}" data-kpi="${x.id}"><span class="lbl">${x.lbl}</span><b>${esc(x.n)}</b><small>${esc(x.sub)}</small></button>`).join("");
@@ -829,6 +835,7 @@ function renderKPIs(evs){
   ct.className="chipk"+(minhas.length?" alert":"");
   ct.innerHTML=`<span>Minhas tarefas</span><b>${minhas.length}</b>${minhasAtr?`<small>${minhasAtr} atrasada${minhasAtr>1?"s":""}</small>`:""}`;
   $("proxOS").textContent=S.carregado?proximaOS():"—";
+  $("totProj").textContent=S.carregado?S.projetos.length:"—";
 }
 
 function renderFin(){
@@ -875,8 +882,9 @@ function hbars(rows,max,fmtv){
 function renderCharts(){
   const P=S.projetos,h=hojeISO(),out=[];
   // 1. projetos por status
-  const COR={naoiniciado:"c-idle",andamento:"c-acc",aguardando:"c-warn",aprovacao:"c-warn",standby:"c-orange",concluido:"c-ok",cancelado:"c-bad"};
-  const st=STATUS.map(([v,l])=>({nome:l,partes:[{v:S.resumo.filter(r=>r.status===v).length,c:COR[v],l:"projetos"}]})).filter(r=>r.partes[0].v>0);
+  const COR={naoiniciado:"c-idle",andamento:"c-acc",aguardando:"c-orange",aprovacao:"c-warn",standby:"c-warn",concluido:"c-ok",cancelado:"c-bad"};
+  // ordem do gráfico: concluídos → em andamento → standby → aguardando retorno → cancelados
+  const st=["concluido","andamento","standby","aguardando","cancelado"].map(v=>[v,ST[v]]).map(([v,l])=>({nome:l,partes:[{v:S.resumo.filter(r=>r.status===v).length,c:COR[v],l:"projetos"}]})).filter(r=>r.partes[0].v>0);
   out.push(`<div class="panel"><div class="panel-h"><h3>Projetos por status</h3></div><div class="chart-b">${hbars(st,Math.max(1,...st.map(r=>r.partes[0].v)),v=>String(v))}</div></div>`);
   // 2. tarefas abertas por pessoa
   const m=new Map();
@@ -939,6 +947,9 @@ function renderRail(evs){
   document.querySelectorAll("[data-rail]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.rail===S.rail)));
   let lst=evs.filter(e=>e.data<=lim);
   if(!S.admin)lst=lst.filter(e=>e.meu);
+  // "Só os próximos": de cada projeto, só as etapas liberadas (e a sua próxima, se estiver esperando alguém) + a entrega
+  if(S.railModo!=="todos")lst=lst.filter(e=>e.tipo==="entrega"||e.liberada||(e.meu&&e.proxMinha));
+  document.querySelectorAll("[data-railmodo]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.railmodo===S.railModo)));
   const dimOutros=S.admin&&S.rail==="minhas";
   $("railSub").textContent=S.admin?(dimOutros?"Suas tarefas e entregas em destaque; as demais ficam esmaecidas.":"Entregas e tarefas de toda a equipe."):"Suas tarefas e as entregas dos projetos em que você participa.";
   if(!S.carregado){$("prazos").innerHTML='<div class="empty">Carregando…</div>';return}
@@ -1000,7 +1011,7 @@ function renderProjetos(){
       <td><span class="pill st-${esc(p.status)}">${esc(ST[p.status])}</span></td>
       <td><div class="pct"><div class="bar v${bucket(pr)}"><i style="width:${pr}%"></i></div>${pr}%</div></td>
       <td class="num">${p.valor?brl(p.valor):'<span class="sub">—</span>'}</td>
-      <td class="num">${!p.valor?'<span class="sub">—</span>':saldo<=0?'<span class="quit">Quitado</span>':pagPendente(p)?`<span class="pend" style="color:var(--bad)">${brl(saldo)}</span><div class="sub">cobrar</div>`:`<span class="pend">${brl(saldo)}</span>${p.status==="standby"?'<div class="sub">standby</div>':""}`}</td>
+      <td class="num">${!p.valor||p.status==="cancelado"?'<span class="sub">—</span>':saldo<=0?'<span class="quit">Quitado</span>':pagPendente(p)?`<span class="pend" style="color:var(--bad)">${brl(saldo)}</span><div class="sub">cobrar</div>`:`<span class="pend">${brl(saldo)}</span>${p.status==="standby"?'<div class="sub">standby</div>':""}`}</td>
     </tr>`}).join("");
   const vz=$("vazio");
   if(!S.carregado){vz.hidden=false;vz.innerHTML="<strong>Carregando projetos…</strong>"}
@@ -1011,18 +1022,29 @@ function renderProjetos(){
 
 function segPct(v,dis){return `<div class="pseg" role="group" aria-label="Percentual feito">`+PCTS.map(n=>`<button type="button" data-pct="${n}" class="v${n}${n===v?" on":""}" aria-pressed="${n===v}"${dis?" disabled":""}>${n}</button>`).join("")+`</div>`}
 function selStatusT(v,dis){return `<select data-k="status" aria-label="Status da tarefa"${dis?" disabled":""}>`+T_STATUS.map(([k,l])=>`<option value="${k}"${k===v?" selected":""}>${l}</option>`).join("")+`</select>`}
+// minhas tarefas abertas; no modo "próximas" só a primeira de cada projeto (na ordem das etapas)
+function minhasTarefas(){
+  const out=[],todas=S.tarefasModo==="todas";
+  S.projetos.forEach(p=>{if(fechado(p))return;const l=p.etapas.filter(e=>ehMeu(e.responsavel)&&!tarefaFeita(e));
+    if(!l.length)return;if(todas){l.forEach(e=>out.push({p,e,resto:0}));return}
+    // liberada = todas as etapas de que ela depende já concluídas (as indicadas em "apos" ou, sem isso, a anterior da lista)
+    const liberada=e=>liberadaEm(p,e);
+    let mostrar=l.filter(liberada),espera=false;
+    if(!mostrar.length){mostrar=[l[0]];espera=true}
+    mostrar.forEach((e,k)=>out.push({p,e,resto:k===0?l.length-mostrar.length:0,espera}))});
+  return out.sort((a,b)=>(a.e.prazo||"9999").localeCompare(b.e.prazo||"9999"));
+}
 function renderTarefas(){
-  const h=hojeISO(),lst=[];
-  S.projetos.forEach(p=>{if(fechado(p))return;p.etapas.forEach(e=>{if(ehMeu(e.responsavel)&&!tarefaFeita(e))lst.push({p,e})})});
-  lst.sort((a,b)=>(a.e.prazo||"9999").localeCompare(b.e.prazo||"9999"));
-  $("tarefasSub").textContent=S.eu.nome?`Atribuídas a ${S.eu.nome}, ainda não concluídas, por data`:"";
+  const h=hojeISO(),lst=minhasTarefas();
+  document.querySelectorAll("[data-tmodo]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.tmodo===S.tarefasModo)));
+  $("tarefasSub").textContent=S.eu.nome?(S.tarefasModo==="todas"?`Todas as tarefas abertas de ${S.eu.nome}, por data`:`As próximas tarefas de ${S.eu.nome} em cada projeto (as liberadas para fazer), por data`):"";
   if(!S.carregado){$("tarefas").innerHTML='<div class="empty">Carregando…</div>';return}
   if(!lst.length){$("tarefas").innerHTML='<div class="empty"><strong>Nenhuma tarefa pendente</strong>Quando alguém atribuir uma etapa a você, ela aparece aqui.</div>';return}
-  $("tarefas").innerHTML=lst.map(({p,e})=>{
+  $("tarefas").innerHTML=lst.map(({p,e,resto,espera})=>{
     const c=classePrazo(e.prazo),[,m,d]=(e.prazo||"--").split("-");
     return `<div class="task" data-os="${esc(p.os)}" data-id="${esc(e.id)}">
       ${e.prazo?`<div class="dbox ${c}"><b>${d}</b><span>${MESES[+m-1]}</span></div>`:'<div class="dbox none"><b>sem data</b></div>'}
-      <div style="min-width:0"><div class="t">${esc(e.nome||"Tarefa sem nome")}</div><div class="s"><span class="os" data-abrir="${esc(p.os)}">${esc(p.os)}</span> · ${esc(p.local||p.cliente||"")}${e.prazo&&e.prazo<h?` · <b style="color:var(--bad)">atrasada ${dias(e.prazo,h)} dia(s)</b>`:""}</div></div>
+      <div style="min-width:0"><div class="t">${esc(e.nome||"Tarefa sem nome")}</div><div class="s"><span class="os" data-abrir="${esc(p.os)}">${esc(p.os)}</span>${[p.local,p.servico,p.cliente].filter(Boolean).map(x=>" · "+esc(x)).join("")}${espera?` · <span style="color:var(--warn)">aguardando etapa anterior</span>`:""}${resto?` · <span style="color:var(--accent)">+${resto} depois</span>`:""}${e.prazo&&e.prazo<h?` · <b style="color:var(--bad)">atrasada ${dias(e.prazo,h)} dia(s)</b>`:""}</div></div>
       ${selStatusT(e.status,!S.podeEscrever)}
       ${segPct(e.pct,!S.podeEscrever)}
     </div>`}).join("");
@@ -1055,11 +1077,11 @@ function abrir(os){
   if(os&&!S.projetos.find(x=>x.os===os))return;
   const p=os?S.projetos.find(x=>x.os===os):null;
   origOS=p?p.os:null;
-  edit=p?JSON.parse(JSON.stringify(p)):normProjeto({os:proximaOS(),status:"naoiniciado",responsavel:S.eu.nome||""});
+  edit=p?JSON.parse(JSON.stringify(p)):normProjeto({os:proximaOS(),status:"aguardando",responsavel:S.eu.nome||""});
   edit._base=p?p.atualizado:null;
   $("pStatus").innerHTML=STATUS.map(([v,l])=>`<option value="${v}">${l}</option>`).join("");
   $("pOS").value=edit.os;$("pStatus").value=edit.status;$("pLocal").value=edit.local;montarServico(edit.servico);$("pCliente").value=edit.cliente;
-  $("pResp").innerHTML=opcoesPessoas(edit.responsavel,"— escolher —");$("pResp").value=edit.responsavel;$("pPrazo").value=edit.prazo||"";$("pInicio").value=edit.inicio||(p?"":hojeISO());$("pObs").value=edit.obs;
+  $("pResp").innerHTML=opcoesPessoas(edit.responsavel,"— escolher —");$("pResp").value=edit.responsavel;$("pPrazo").value=edit.prazo||"";$("pInicio").value=edit.inicio||(p?"":hojeISO());$("pObs").value=edit.obs;ajustaObs(false);
   $("pValor").value=edit.valor?brl(edit.valor):"";
   edit.etapas.forEach(e=>e._novo=false);
   const travado=!S.admin;
@@ -1270,6 +1292,11 @@ $("pPart").addEventListener("change",addPart);
 ["pOS","pLocal","pStatus"].forEach(id=>$(id).addEventListener("input",cabecalho));
 $("shMax").onclick=()=>{const m=$("sheet").classList.toggle("max");$("shMax").textContent=m?"Reduzir":"Expandir";document.documentElement.style.setProperty("--sheet-h",m?"92vh":"58vh")};
 
+// observações: a caixa cresce conforme o texto, e ao clicar abre maior para escrever
+function ajustaObs(foco){const t=$("pObs");t.style.height="auto";const h=Math.max(t.scrollHeight+2,foco?140:40);t.style.height=Math.min(h,320)+"px"}
+$("pObs").addEventListener("input",()=>ajustaObs(true));
+$("pObs").addEventListener("focus",()=>ajustaObs(true));
+$("pObs").addEventListener("blur",()=>ajustaObs(false));
 function erro(msg){$("pErro").textContent=msg;$("pErro").hidden=false}
 $("btnSalvar").onclick=async()=>{
   if(!edit)return;addPart();
@@ -1307,6 +1334,7 @@ function abrirDe(ev){const el=ev.target.closest("[data-os]");if(el&&!ev.target.c
 ["busca","fStatus","fResp","fPag","fCat"].forEach(id=>$(id).addEventListener("input",renderProjetos));
 $("fCat").innerHTML='<option value="">Todas as categorias</option>'+CATS.map(([c])=>`<option value="${c}">${c}</option>`).join("")+'<option value="-">Sem categoria</option>';
 $("fStatus").innerHTML=filtroStatusOpts();
+$("chipTotal").onclick=()=>{$("busca").value="";$("fResp").value="";$("fPag").value="";$("fCat").value="";$("fStatus").value="todos";renderProjetos();$("sec-projetos").scrollIntoView({behavior:"smooth"})};
 $("chipTarefas").onclick=()=>$("sec-tarefas").scrollIntoView({behavior:"smooth"});
 $("chipOS").onclick=()=>{if(S.podeEscrever&&S.admin)abrir(null)};
 $("fin").addEventListener("click",ev=>{if(ev.target.closest("[data-kpi]")){$("busca").value="";$("fResp").value="";$("fPag").value="";$("fStatus").value="pagpend";renderProjetos();$("sec-projetos").scrollIntoView({behavior:"smooth"})}});
@@ -1317,9 +1345,11 @@ $("kpis").addEventListener("click",ev=>{
   if(k==="v7"){S.calRef=new Date();S.calRef.setDate(1);render();$("sec-calendario").scrollIntoView({behavior:"smooth"});return}
   $("busca").value="";$("fResp").value="";$("fPag").value="";
   if(k==="pagpend"){$("fStatus").value="pagpend"}
-  else $("fStatus").value=k==="abertos"?"ativos":k;
+  else $("fStatus").value=k==="abertos"?"andamento":k;
   renderProjetos();$("sec-projetos").scrollIntoView({behavior:"smooth"});
 });
+document.querySelectorAll("[data-tmodo]").forEach(b=>b.onclick=()=>{S.tarefasModo=b.dataset.tmodo;lsSet("tarefasModo",S.tarefasModo);renderTarefas();renderKPIs(eventos())});
+document.querySelectorAll("[data-railmodo]").forEach(b=>b.onclick=()=>{S.railModo=b.dataset.railmodo;lsSet("railModo",S.railModo);renderRail(eventos())});
 document.querySelectorAll("[data-rail]").forEach(b=>b.onclick=()=>{S.rail=b.dataset.rail;lsSet("rail",S.rail);renderRail(eventos())});
 document.querySelectorAll("[data-caltipo]").forEach(b=>b.onclick=()=>{S.calTipo=b.dataset.caltipo;lsSet("calTipo",S.calTipo);renderCal(eventos())});
 document.querySelectorAll("[data-calquem]").forEach(b=>b.onclick=()=>{S.calQuem=b.dataset.calquem;lsSet("calQuem",S.calQuem);renderCal(eventos())});
