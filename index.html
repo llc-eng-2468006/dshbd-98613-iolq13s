@@ -152,7 +152,14 @@ section{scroll-margin-top:12px}
 .fin .box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .fin .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
 .fin b{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fin .rec b{color:var(--ok)} .fin .pen b{color:var(--warn)} .fin .liq b{color:var(--liq)} .fin .liq{border-color:color-mix(in srgb,var(--liq) 45%,var(--line))}
+.fin .rec b{color:var(--ok)} .fin .pen b{color:var(--warn)} .aguard{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:13px}
+.aguard span,.aguard b{font-size:13px}
+.fin-aviso{margin-top:8px;font-size:12px;color:var(--bad)}
+.fin-aviso b{font-family:var(--font-mono)}
+.aguard span{color:var(--orange);font-weight:700}
+.aguard b{color:var(--orange);font-variant-numeric:tabular-nums}
+.aguard small{color:var(--muted);margin-left:auto}
+.fin .liq b{color:var(--liq)} .fin .liq{border-color:color-mix(in srgb,var(--liq) 45%,var(--line))}
 .meter{height:12px;background:var(--surface-2);border-radius:99px;overflow:hidden;display:flex;gap:2px;margin-top:8px}
 .meter i{display:block;height:100%}
 .meter .m-ok{background:var(--ok);border-radius:99px 0 0 99px}
@@ -545,7 +552,7 @@ select option{background:var(--surface);color:var(--fg)}
 
   <div class="rest">
     <section class="finsec" id="sec-financeiro">
-      <div class="sec-h"><h2>Financeiro</h2><p id="finSub">Projetos em standby e cancelados ficam fora dos totais.</p></div>
+      <div class="sec-h"><h2>Financeiro</h2><p id="finSub">Orçamentos aguardando retorno e projetos cancelados ficam fora dos totais.</p></div>
       <div class="fin" id="fin"></div>
       <div class="fin-row"><div class="box meter-box" id="finMeter"></div><div class="panel" id="finServ"></div></div>
       <div id="finFat"></div>
@@ -801,8 +808,8 @@ function aplicarVisibilidade(){S.projetos=S.admin?S.todos:S.todos.filter(envolvi
 const temValor=p=>p.valor>0;
 // "Pagamento pendente" = serviço entregue (concluído) e ainda falta receber
 const pagPendente=p=>p._pagPend!=null?!!p._pagPend:(p.status==="concluido"&&p.devido>0&&p.pago<p.devido);
-// entra no "a receber" do financeiro: tudo que não está em standby nem cancelado
-const contaFin=p=>p.status!=="cancelado"&&p.status!=="standby";
+// entra nos totais do financeiro: proposta aceita (andamento, standby, concluído). Aguardando retorno = orçamento ainda não aprovado
+const contaFin=p=>p.status!=="cancelado"&&p.status!=="aguardando";
 const aReceber=p=>contaFin(p)?Math.max(p.devido-p.pago,0):0;
 const corEntrega=d=>{const c=classePrazo(d);return c==="late"?"ent-late":c==="soon"?"ent-soon":"ent-ok"};
 function setPct(e,v){
@@ -888,12 +895,12 @@ function renderKPIs(evs){
 }
 
 function renderFin(){
-  $("finSub").textContent=S.admin?"Visível para cada um só com os projetos em que participa. Standby e cancelados ficam fora dos totais.":"Valores dos projetos em que você participa. Standby e cancelados ficam fora dos totais.";
-  const base=S.projetos.filter(contaFin),sb_=S.projetos.filter(p=>p.status==="standby"&&p.valor>0);
+  $("finSub").textContent=S.admin?"Visível para cada um só com os projetos em que participa. Orçamentos aguardando retorno e cancelados ficam fora dos totais.":"Valores dos projetos em que você participa. Orçamentos aguardando retorno e cancelados ficam fora dos totais.";
+  const base=S.projetos.filter(contaFin),sb_=S.projetos.filter(p=>p.status==="aguardando"&&p.valor>0),aguardV=sb_.reduce((s,p)=>s+p.valor,0);
   const tot=base.reduce((s,p)=>s+p.valor,0),rec=base.reduce((s,p)=>s+p.pago,0),pen=base.reduce((s,p)=>s+aReceber(p),0);
   const pp=S.projetos.filter(pagPendente),cobrar=pp.reduce((s,p)=>s+Math.max(p.devido-p.pago,0),0);
   const pr=tot?Math.min(100,Math.round(rec/tot*100)):0;
-  const sem=base.filter(p=>!p.valor).length;
+  const sem=base.filter(p=>!p.valor).length,over=base.filter(p=>p.pago>p.devido+0.01);
   const desc=r2(base.reduce((s,p)=>s+p.desconto,0)),cust=r2(base.reduce((s,p)=>s+p.custo,0)),liq=r2(tot-desc-cust),mg=tot?Math.round(liq/tot*100):0;
   $("fin").innerHTML=`
     <div class="box liq"><span class="lbl">Receita líquida</span><b>${brl(liq)}</b><span class="hint">${tot?mg+"% do bruto · ":""}custos ${brl(cust)}${desc?` · descontos ${brl(desc)}`:""}</span></div>
@@ -903,7 +910,9 @@ function renderFin(){
     <button type="button" class="box cobrar" data-kpi="pagpend"><span class="lbl">Cobrar agora</span><b>${brl(cobrar)}</b><span class="hint">${pp.length} projeto(s) entregue(s) sem pagamento total · ver lista</span></button>`;
   $("finMeter").innerHTML=`<span class="lbl">Recebido x a receber</span>
       <div class="meter" data-tip="Recebido ${esc(brl(rec))} · A receber ${esc(brl(pen))}">${tot?`<i class="m-ok" style="width:${Math.min(rec,tot)/tot*100}%"></i><i class="m-warn" style="width:${pen/tot*100}%"></i>`:""}</div>
-      <div class="legend"><span><i style="background:var(--ok)"></i>Recebido ${pr}%</span><span><i style="background:var(--warn)"></i>A receber ${tot?100-pr:0}%</span>${sb_.length?`<span>Fora dos totais: ${sb_.length} projeto(s) em standby somando ${brl(sb_.reduce((s,p)=>s+p.valor,0))}</span>`:""}</div>
+      <div class="legend"><span><i style="background:var(--ok)"></i>Recebido ${pr}%</span><span><i style="background:var(--warn)"></i>A receber ${tot?100-pr:0}%</span></div>
+      ${over.length?`<div class="fin-aviso">⚠ Pagamentos acima do valor do contrato em: <b>${over.map(p=>esc(p.os)).join(", ")}</b> (confira o valor ou os pagamentos lançados)</div>`:""}
+      ${sb_.length?`<div class="aguard"><span>Aguardando aprovação (fora dos totais)</span><small>${sb_.length} orçamento${sb_.length>1?"s":""}</small><b>${brl(aguardV)}</b></div>`:""}
       <div class="resumo" style="margin-top:6px"><span>Contratado</span><b>${brl(tot)}</b><span>Recebido</span><b style="color:var(--ok)">${brl(rec)}</b><span>A receber</span><b style="color:var(--warn)">${brl(pen)}</b></div>
       <div class="meter-sep"></div>
       <span class="lbl">Bruto x líquido</span>
@@ -1076,7 +1085,7 @@ function renderProjetos(){
       <td><span class="pill st-${esc(p.status)}">${esc(ST[p.status])}</span></td>
       <td><div class="pct"><div class="bar v${bucket(pr)}"><i style="width:${pr}%"></i></div>${pr}%</div></td>
       <td class="num">${p.valor?brl(p.valor):'<span class="sub">—</span>'}</td>
-      <td class="num">${!p.valor||p.status==="cancelado"?'<span class="sub">—</span>':saldo<=0?'<span class="quit">Quitado</span>':pagPendente(p)?`<span class="pend" style="color:var(--bad)">${brl(saldo)}</span><div class="sub">cobrar</div>`:`<span class="pend">${brl(saldo)}</span>${p.status==="standby"?'<div class="sub">standby</div>':""}`}</td>
+      <td class="num">${!p.valor||!contaFin(p)?'<span class="sub">—</span>':saldo<=0?'<span class="quit">Quitado</span>':pagPendente(p)?`<span class="pend" style="color:var(--bad)">${brl(saldo)}</span><div class="sub">cobrar</div>`:`<span class="pend">${brl(saldo)}</span>${p.status==="standby"?'<div class="sub">standby</div>':""}`}</td>
     </tr>`}).join("");
   const vz=$("vazio");
   if(!S.carregado){vz.hidden=false;vz.innerHTML="<strong>Carregando projetos…</strong>"}
