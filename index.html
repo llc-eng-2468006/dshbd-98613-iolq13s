@@ -154,6 +154,8 @@ section{scroll-margin-top:12px}
 .fin b{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fin .rec b{color:var(--ok)} .fin .pen b{color:var(--warn)} .aguard{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:8px;font-size:13px}
 .aguard span,.aguard b{font-size:13px}
+@keyframes flashT{0%,30%{box-shadow:0 0 0 2px var(--accent);background:var(--accent-soft)}100%{box-shadow:0 0 0 2px transparent}}
+.task.flash{animation:flashT 2.2s ease-out}
 .fin-aviso{margin-top:8px;font-size:12px;color:var(--bad)}
 .fin-aviso b{font-family:var(--font-mono)}
 .aguard span{color:var(--orange);font-weight:700}
@@ -1013,7 +1015,7 @@ document.addEventListener("click",ev=>{
 function itemPrazo(e,h,dim){
   const [,m,d]=e.data.split("-"),c=classePrazo(e.data),n=Math.abs(dias(h,e.data));
   const quando=e.data<h?`Atrasado ${n} dia${n>1?"s":""}`:e.data===h?"Hoje":`Em ${n} dia${n>1?"s":""}`;
-  return `<li data-os="${esc(e.os)}" tabindex="0" class="${e.meu&&S.admin&&S.rail==="minhas"?"mine":""}${dim?" dim":""}"><div class="dbox ${c}"><b>${d}</b><span>${MESES[+m-1]}</span></div>
+  return `<li data-os="${esc(e.os)}"${e.tipo==="tarefa"?` data-tid="${esc(e.id)}"`:""} tabindex="0" class="${e.meu&&S.admin&&S.rail==="minhas"?"mine":""}${dim?" dim":""}"><div class="dbox ${c}"><b>${d}</b><span>${MESES[+m-1]}</span></div>
     <div style="min-width:0"><div class="t">${e.tipo==="entrega"?`<span class="tag ${corEntrega(e.data)}">ENTREGA</span>`:""}<span class="os">${esc(e.os)}</span> · ${txt(e.titulo)}</div><div class="s">${esc(quando)}${e.resp?" · "+esc(e.resp):""}${e.tipo==="tarefa"?" · "+e.pct+"%":""}</div></div></li>`;
 }
 function renderRail(evs){
@@ -1453,7 +1455,17 @@ $("btnNovo").onclick=()=>abrir(null);
 $("sideNovo").onclick=()=>{if(S.podeEscrever)abrir(null)};
 
 /* ---------- navegação e filtros ---------- */
-function abrirDe(ev){const el=ev.target.closest("[data-os]");if(el&&!ev.target.closest(".task"))abrir(el.dataset.os)}
+function abrirDe(ev){const el=ev.target.closest("[data-os]");if(!el||ev.target.closest(".task"))return;if(el.dataset.tid&&irParaTarefa(el.dataset.os,el.dataset.tid))return;abrir(el.dataset.os)}
+// tarefa clicada nos próximos prazos: vai para "Minhas tarefas" e destaca a linha (se não for sua, abre o projeto)
+function irParaTarefa(os,id){
+  const sel=`#tarefas .task[data-os="${CSS.escape(os)}"][data-id="${CSS.escape(id)}"]`;
+  let t=document.querySelector(sel);
+  if(!t){const p=S.projetos.find(x=>x.os===os),e=p&&p.etapas.find(x=>x.id===id);if(!e||!ehMeu(e.responsavel)||tarefaFeita(e))return false;
+    S.tarefasModo="todas";lsSet("tarefasModo","todas");renderTarefas();renderKPIs(eventos());t=document.querySelector(sel);if(!t)return false}
+  t.scrollIntoView({behavior:"smooth",block:"center"});
+  t.classList.remove("flash");void t.offsetWidth;t.classList.add("flash");
+  return true;
+}
 ["tbody","prazos","cal"].forEach(id=>$(id).addEventListener("click",abrirDe));
 ["tbody","prazos"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter")abrirDe(e)}));
 ["busca","fStatus","fResp","fPag","fCat"].forEach(id=>$(id).addEventListener("input",renderProjetos));
