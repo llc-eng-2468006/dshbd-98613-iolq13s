@@ -339,7 +339,8 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
 .dl li.dim{opacity:.35}
 .dl li.dim:hover{opacity:.8}
 .dl .t{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.dl .t .tag{font-size:10px;font-weight:700;letter-spacing:.06em;background:var(--ent,var(--ok));color:var(--ent-i,#fff);border-radius:3px;padding:1px 5px;margin-right:4px;vertical-align:1px}
+.dl .t2{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dl .t .tag,.dl .t2 .tag{font-size:10px;font-weight:700;letter-spacing:.06em;background:var(--ent,var(--ok));color:var(--ent-i,#fff);border-radius:3px;padding:1px 5px;margin-right:4px;vertical-align:1px}
 .dl .s{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* editor (de baixo para cima) */
@@ -1029,7 +1030,7 @@ function itemPrazo(e,h,dim){
   const [,m,d]=e.data.split("-"),c=classePrazo(e.data),n=Math.abs(dias(h,e.data));
   const quando=e.data<h?`Atrasado ${n} dia${n>1?"s":""}`:e.data===h?"Hoje":`Em ${n} dia${n>1?"s":""}`;
   return `<li data-os="${esc(e.os)}"${e.tipo==="tarefa"?` data-tid="${esc(e.id)}"`:""} tabindex="0" class="${e.meu&&S.admin&&S.rail==="minhas"?"mine":""}${dim?" dim":""}"><div class="dbox ${c}"><b>${d}</b><span>${MESES[+m-1]}</span></div>
-    <div style="min-width:0"><div class="t">${e.tipo==="entrega"?`<span class="tag ${corEntrega(e.data)}">ENTREGA</span>`:""}<span class="os">${esc(e.os)}</span> · ${txt(e.titulo)}</div><div class="s">${esc(quando)}${e.resp?" · "+esc(e.resp):""}${e.tipo==="tarefa"?" · "+e.pct+"%":""}</div></div></li>`;
+    <div style="min-width:0"><div class="t"><span class="os">${esc(e.os)}</span>${e.local?" · "+esc(e.local.replace(/\s*\n\s*/g," ")):""}</div><div class="t2">${e.tipo==="entrega"?`<span class="tag ${corEntrega(e.data)}">ENTREGA</span>`:""}${esc(e.titulo)}</div><div class="s">${esc(quando)}${e.resp?" · "+esc(e.resp):""}${e.tipo==="tarefa"?" · "+e.pct+"%":""}</div></div></li>`;
 }
 function renderRail(evs){
   const h=hojeISO(),lim=addDias(h,60),sem=addDias(h,7);
