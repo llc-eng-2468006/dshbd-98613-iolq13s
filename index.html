@@ -276,6 +276,8 @@ tbody tr:last-child td{border-bottom:0}
 td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .os{font-family:var(--font-mono);font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
 .sub{color:var(--muted);font-size:12px}
+.os-link{color:inherit;text-decoration:none;border-radius:4px;padding:1px 3px;margin:-1px -3px}
+.os-link:hover{text-decoration:underline;background:var(--accent-soft)}
 .c-serv .ln{display:block;white-space:nowrap}
 .date{font-variant-numeric:tabular-nums;white-space:nowrap}
 .date.late{color:var(--bad);font-weight:700}
@@ -1092,7 +1094,7 @@ function renderProjetos(){
   $("tbody").innerHTML=lista.map(p=>{
     const pr=progresso(p),cp=fechado(p)||realizado(p)?"":classePrazo(p.prazo),saldo=Math.max(p.devido-p.pago,0);
     return `<tr data-os="${esc(p.os)}" tabindex="0" class="${p.os===sel?"sel":""}">
-      <td class="os">${esc(p.os)}</td><td>${txt(p.local||"—")}</td><td><div class="c-serv">${servLinhas(p.servico||"—")}</div></td><td>${esc(p.cliente||"—")}</td>
+      <td class="os"><a class="os-link" href="llcos:${encodeURIComponent(p.os)}" title="Abrir a pasta da OS ${esc(p.os)} no computador">${esc(p.os)}</a></td><td>${txt(p.local||"—")}</td><td><div class="c-serv">${servLinhas(p.servico||"—")}</div></td><td>${esc(p.cliente||"—")}</td>
       <td>${esc(p.responsavel||"—")}${p.participantes.length?`<div class="sub">+${p.participantes.length} participante${p.participantes.length>1?"s":""}</div>`:""}</td>
       <td class="date ${cp}">${fmt(p.prazo)}</td>
       <td><span class="pill st-${esc(p.status)}">${esc(ST[p.status])}</span></td>
@@ -1466,7 +1468,7 @@ $("btnNovo").onclick=()=>abrir(null);
 $("sideNovo").onclick=()=>{if(S.podeEscrever)abrir(null)};
 
 /* ---------- navegação e filtros ---------- */
-function abrirDe(ev){const el=ev.target.closest("[data-os]");if(!el||ev.target.closest(".task"))return;if(el.dataset.tid&&irParaTarefa(el.dataset.os,el.dataset.tid))return;abrir(el.dataset.os)}
+function abrirDe(ev){if(ev.target.closest(".os-link"))return;const el=ev.target.closest("[data-os]");if(!el||ev.target.closest(".task"))return;if(el.dataset.tid&&irParaTarefa(el.dataset.os,el.dataset.tid))return;abrir(el.dataset.os)}
 // tarefa clicada nos próximos prazos: vai para "Minhas tarefas" e destaca a linha (se não for sua, abre o projeto)
 function irParaTarefa(os,id){
   const sel=`#tarefas .task[data-os="${CSS.escape(os)}"][data-id="${CSS.escape(id)}"]`;
